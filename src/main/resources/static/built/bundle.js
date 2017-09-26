@@ -25489,8 +25489,8 @@
 		}
 	
 		_createClass(App, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
+			key: 'componentWillMount',
+			value: function componentWillMount() {
 				fetch('/api/all', {}).then(function (response) {
 					return response.json();
 				}).then(function (results) {
@@ -25596,7 +25596,10 @@
 		function Home(props) {
 			_classCallCheck(this, Home);
 	
-			return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+	
+			_this.state = {};
+			return _this;
 		}
 	
 		_createClass(Home, [{

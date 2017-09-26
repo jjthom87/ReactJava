@@ -27,7 +27,7 @@ public class MainController {
 		return dildoRepository.findAll();
 	}
 
-	@RequestMapping(value = "/api/create", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/create", method = RequestMethod.POST, produces = { "application/json" })
 	public ResponseEntity<Dildo> create(@RequestBody Dildo dildo) {
 		dildoRepository.save(dildo);
 		return ResponseEntity.ok(dildo);

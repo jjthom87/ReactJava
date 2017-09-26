@@ -4,8 +4,9 @@ export default class Home extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+		}
 	}
-
 	createDildo(e){
 		e.preventDefault();
 		const name = this.refs.name.value;
@@ -29,7 +30,6 @@ export default class Home extends React.Component {
             	console.log(results)
             });
 	}
-
 	render() {
 		return (
 			<div>
