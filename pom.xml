@@ -2,9 +2,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- <parent> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-parent</artifactId> 
-		<version>1.5.7.RELEASE</version> </parent> -->
-
 	<groupId>com.proj.first</groupId>
 	<artifactId>react.setup</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -127,7 +124,7 @@
 						<!-- use validate to get the statis files into the jar -->
 						<phase>validate</phase>
 						<configuration>
-							<workingDirectory>src/main/js/</workingDirectory>
+							<workingDirectory>src/main/webapp/js/</workingDirectory>
 							<executable>npm</executable>
 							<arguments>
 								<argument>start</argument>
