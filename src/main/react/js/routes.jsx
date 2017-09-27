@@ -1,9 +1,9 @@
 import React from 'react';
 import {Route} from 'react-router';
 
-import App from './app.js';
-import Application from './application.js';
-import Home from './home.js';
+import App from './app';
+import Application from './application';
+import Home from './home';
 
 export default (
 	<Route component={Application}>
