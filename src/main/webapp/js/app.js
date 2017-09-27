@@ -6,7 +6,7 @@ export default class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dildos: []
+			users: []
 		}
 	}
 	componentWillMount() {
@@ -14,7 +14,7 @@ export default class App extends Component {
 		}).then((response) => response.json())
 		.then((results) => {
 			this.setState({
-				dildos: results
+				users: results
 			})
 		});
 	}
@@ -30,7 +30,7 @@ export default class App extends Component {
 							<th>Size</th>
 						</tr>
 					</thead>
-					<List dildos={this.state.dildos}/>
+					<List users={this.state.users}/>
 				</table>
 			</div>
 		)

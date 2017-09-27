@@ -8,13 +8,13 @@ export default class Item extends Component {
     }
 	render(){
 
-		const { name, cost, size } = this.props;
+		const { firstName, lastName, nickName } = this.props;
 
 		return (
 			<tr>
-				<td>{name}</td>
-				<td>{cost}</td>
-				<td>{size}</td>
+				<td>{firstName}</td>
+				<td>{lastName}</td>
+				<td>{nickName}</td>
 			</tr>
 		);
 	}

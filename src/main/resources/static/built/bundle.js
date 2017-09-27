@@ -25492,7 +25492,7 @@
 			var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
 			_this.state = {
-				dildos: []
+				users: []
 			};
 			return _this;
 		}
@@ -25506,7 +25506,7 @@
 					return response.json();
 				}).then(function (results) {
 					_this2.setState({
-						dildos: results
+						users: results
 					});
 				});
 			}
@@ -25547,7 +25547,7 @@
 								)
 							)
 						),
-						_react2.default.createElement(_list2.default, { dildos: this.state.dildos })
+						_react2.default.createElement(_list2.default, { users: this.state.users })
 					)
 				);
 			}
@@ -25600,12 +25600,12 @@
 	    value: function render() {
 	      var dildos = this.props.dildos;
 	
-	      var renderDildos = function renderDildos() {
-	        return dildos.map(function (dildo, index) {
+	      var renderUsers = function renderUsers() {
+	        return users.map(function (user, index) {
 	          return _react2.default.createElement(_item2.default, {
-	            name: dildo.name,
-	            cost: dildo.cost,
-	            size: dildo.size,
+	            firstName: user.firstName,
+	            lastName: user.lastName,
+	            nickName: user.nickName,
 	            key: index
 	          });
 	        });
@@ -25613,7 +25613,7 @@
 	      return _react2.default.createElement(
 	        'tbody',
 	        null,
-	        renderDildos()
+	        renderUsers()
 	      );
 	    }
 	  }]);
@@ -25663,9 +25663,9 @@
 			key: 'render',
 			value: function render() {
 				var _props = this.props,
-				    name = _props.name,
-				    cost = _props.cost,
-				    size = _props.size;
+				    firstName = _props.firstName,
+				    lastName = _props.lastName,
+				    nickName = _props.nickName;
 	
 	
 				return _react2.default.createElement(
@@ -25674,17 +25674,17 @@
 					_react2.default.createElement(
 						'td',
 						null,
-						name
+						firstName
 					),
 					_react2.default.createElement(
 						'td',
 						null,
-						cost
+						lastName
 					),
 					_react2.default.createElement(
 						'td',
 						null,
-						size
+						nickName
 					)
 				);
 			}
@@ -25781,21 +25781,19 @@
 		}
 	
 		_createClass(Home, [{
-			key: 'createDildo',
-			value: function createDildo(e) {
+			key: 'createUser',
+			value: function createUser(e) {
 				e.preventDefault();
-				var name = this.refs.name.value;
-				var cost = this.refs.cost.value;
-				var size = this.refs.size.value;
+				var firstName = this.refs.firstName.value;
+				var lastName = this.refs.lastName.value;
+				var nickName = this.refs.nickName.value;
+				var password = this.refs.password.value;
 	
-				var newDildo = {
-					name: name,
-					cost: cost,
-					size: size
-				};
+				var newUser = { firstName: firstName, lastName: lastName, nickName: nickName, password: password };
+	
 				fetch('/api/create', {
 					method: 'post',
-					body: JSON.stringify(newDildo),
+					body: JSON.stringify(newUser),
 					headers: {
 						'content-type': 'application/json',
 						'accept': 'application/json'
@@ -25819,12 +25817,14 @@
 					),
 					_react2.default.createElement(
 						'form',
-						{ onSubmit: this.createDildo.bind(this) },
-						_react2.default.createElement('input', { type: 'text', placeholder: 'name', ref: 'name' }),
+						{ onSubmit: this.createUser.bind(this) },
+						_react2.default.createElement('input', { type: 'text', placeholder: 'firstName', ref: 'firstName' }),
 						_react2.default.createElement('br', null),
-						_react2.default.createElement('input', { type: 'number', placeholder: 'cost', ref: 'cost' }),
+						_react2.default.createElement('input', { type: 'text', placeholder: 'lastName', ref: 'lastName' }),
 						_react2.default.createElement('br', null),
-						_react2.default.createElement('input', { type: 'number', placeholder: 'size', ref: 'size' }),
+						_react2.default.createElement('input', { type: 'text', placeholder: 'nickName', ref: 'nickName' }),
+						_react2.default.createElement('br', null),
+						_react2.default.createElement('input', { type: 'password', placeholder: 'password', ref: 'password' }),
 						_react2.default.createElement('br', null),
 						_react2.default.createElement('input', { type: 'submit' })
 					)

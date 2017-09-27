@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.proj.first.react.setup.entity.Dildo;
-import com.proj.first.react.setup.repository.DildoRepository;
+import com.proj.first.react.setup.entity.User;
+import com.proj.first.react.setup.repository.UserRepository;
 
 @Controller
 public class MainController {
 
 	@Autowired
-	private DildoRepository dildoRepository;
+	private UserRepository userRepository;
 
 	@RequestMapping(value = "/*", method = RequestMethod.GET)
 	public String index() {
@@ -23,13 +23,13 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/api/all", method = RequestMethod.GET, produces = { "application/json" })
-	public @ResponseBody Iterable<Dildo> getAllUsers() {
-		return dildoRepository.findAll();
+	public @ResponseBody Iterable<User> getAllUsers() {
+		return userRepository.findAll();
 	}
 
 	@RequestMapping(value = "/api/create", method = RequestMethod.POST, produces = { "application/json" })
-	public ResponseEntity<Dildo> create(@RequestBody Dildo dildo) {
-		dildoRepository.save(dildo);
-		return ResponseEntity.ok(dildo);
+	public ResponseEntity<User> create(@RequestBody User user) {
+		userRepository.save(user);
+		return ResponseEntity.ok(user);
 	}
 }

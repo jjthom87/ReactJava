@@ -7,20 +7,18 @@ export default class Home extends Component {
 		this.state = {
 		}
 	}
-	createDildo(e){
+	createUser(e){
 		e.preventDefault();
-		const name = this.refs.name.value;
-        const cost = this.refs.cost.value;
-        const size = this.refs.size.value;
+		const firstName = this.refs.firstName.value;
+        const lastName = this.refs.lastName.value;
+        const nickName = this.refs.nickName.value;
+        const password = this.refs.password.value;
 
-        const newDildo = {
-        	name,
-        	cost,
-        	size
-        }
+        const newUser = { firstName, lastName, nickName, password }
+
 		fetch('/api/create', {
             method: 'post',
-            body: JSON.stringify(newDildo),
+            body: JSON.stringify(newUser),
             headers: {
                 'content-type': 'application/json',
                 'accept': 'application/json'
@@ -34,12 +32,14 @@ export default class Home extends Component {
 		return (
 			<div>
 				<p>React Home</p>
-				<form onSubmit={this.createDildo.bind(this)}>
-					<input type="text" placeholder="name" ref="name"/>
+				<form onSubmit={this.createUser.bind(this)}>
+					<input type="text" placeholder="firstName" ref="firstName"/>
 					<br></br>
-					<input type="number" placeholder="cost" ref="cost"/>
+					<input type="text" placeholder="lastName" ref="lastName"/>
 					<br></br>
-					<input type="number" placeholder="size" ref="size"/>
+					<input type="text" placeholder="nickName" ref="nickName"/>
+					<br></br>
+					<input type="password" placeholder="password" ref="password"/>
 					<br></br>
 					<input type="submit"/>
 				</form>
