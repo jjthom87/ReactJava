@@ -122,10 +122,10 @@
 						<goals>
 							<goal>exec</goal>
 						</goals>
-						<!-- use validate to get the statis files into the jar -->
+						<!-- use validate to get the static files into the jar -->
 						<phase>validate</phase>
 						<configuration>
-							<workingDirectory>src/main/webapp/js/</workingDirectory>
+							<workingDirectory>src/main/react/js/</workingDirectory>
 							<executable>npm</executable>
 							<arguments>
 								<argument>start</argument>

@@ -25533,17 +25533,17 @@
 								_react2.default.createElement(
 									'th',
 									null,
-									'Name'
+									'First Name'
 								),
 								_react2.default.createElement(
 									'th',
 									null,
-									'Cost'
+									'Last Name'
 								),
 								_react2.default.createElement(
 									'th',
 									null,
-									'Size'
+									'Username'
 								)
 							)
 						),
@@ -25598,14 +25598,14 @@
 	  _createClass(List, [{
 	    key: 'render',
 	    value: function render() {
-	      var dildos = this.props.dildos;
+	      var users = this.props.users;
 	
 	      var renderUsers = function renderUsers() {
 	        return users.map(function (user, index) {
 	          return _react2.default.createElement(_item2.default, {
 	            firstName: user.firstName,
 	            lastName: user.lastName,
-	            nickName: user.nickName,
+	            userName: user.userName,
 	            key: index
 	          });
 	        });
@@ -25665,7 +25665,7 @@
 				var _props = this.props,
 				    firstName = _props.firstName,
 				    lastName = _props.lastName,
-				    nickName = _props.nickName;
+				    userName = _props.userName;
 	
 	
 				return _react2.default.createElement(
@@ -25684,7 +25684,7 @@
 					_react2.default.createElement(
 						'td',
 						null,
-						nickName
+						userName
 					)
 				);
 			}
@@ -25786,10 +25786,10 @@
 				e.preventDefault();
 				var firstName = this.refs.firstName.value;
 				var lastName = this.refs.lastName.value;
-				var nickName = this.refs.nickName.value;
+				var userName = this.refs.userName.value;
 				var password = this.refs.password.value;
 	
-				var newUser = { firstName: firstName, lastName: lastName, nickName: nickName, password: password };
+				var newUser = { firstName: firstName, lastName: lastName, userName: userName, password: password };
 	
 				fetch('/api/create', {
 					method: 'post',
@@ -25822,7 +25822,7 @@
 						_react2.default.createElement('br', null),
 						_react2.default.createElement('input', { type: 'text', placeholder: 'lastName', ref: 'lastName' }),
 						_react2.default.createElement('br', null),
-						_react2.default.createElement('input', { type: 'text', placeholder: 'nickName', ref: 'nickName' }),
+						_react2.default.createElement('input', { type: 'text', placeholder: 'userName', ref: 'userName' }),
 						_react2.default.createElement('br', null),
 						_react2.default.createElement('input', { type: 'password', placeholder: 'password', ref: 'password' }),
 						_react2.default.createElement('br', null),

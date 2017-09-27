@@ -25,9 +25,9 @@ export default class App extends Component {
 				<table>
 					<thead>
 						<tr>
-							<th>Name</th>
-							<th>Cost</th>
-							<th>Size</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Username</th>
 						</tr>
 					</thead>
 					<List users={this.state.users}/>

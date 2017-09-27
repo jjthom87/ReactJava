@@ -11,10 +11,10 @@ export default class Home extends Component {
 		e.preventDefault();
 		const firstName = this.refs.firstName.value;
         const lastName = this.refs.lastName.value;
-        const nickName = this.refs.nickName.value;
+        const userName = this.refs.userName.value;
         const password = this.refs.password.value;
 
-        const newUser = { firstName, lastName, nickName, password }
+        const newUser = { firstName, lastName, userName, password }
 
 		fetch('/api/create', {
             method: 'post',
@@ -37,7 +37,7 @@ export default class Home extends Component {
 					<br></br>
 					<input type="text" placeholder="lastName" ref="lastName"/>
 					<br></br>
-					<input type="text" placeholder="nickName" ref="nickName"/>
+					<input type="text" placeholder="userName" ref="userName"/>
 					<br></br>
 					<input type="password" placeholder="password" ref="password"/>
 					<br></br>
