@@ -25451,8 +25451,8 @@
 	exports.default = _react2.default.createElement(
 		_reactRouter.Route,
 		{ component: _application2.default },
-		_react2.default.createElement(_reactRouter.Route, { path: '/', component: _app2.default }),
-		_react2.default.createElement(_reactRouter.Route, { path: '/home', component: _home2.default })
+		_react2.default.createElement(_reactRouter.Route, { path: '/', component: _home2.default }),
+		_react2.default.createElement(_reactRouter.Route, { path: '/home', component: _app2.default })
 	);
 
 /***/ }),
@@ -25784,12 +25784,11 @@
 			key: 'createUser',
 			value: function createUser(e) {
 				e.preventDefault();
-				var firstName = this.refs.firstName.value;
-				var lastName = this.refs.lastName.value;
-				var userName = this.refs.userName.value;
+				var name = this.refs.name.value;
+				var username = this.refs.username.value;
 				var password = this.refs.password.value;
 	
-				var newUser = { firstName: firstName, lastName: lastName, userName: userName, password: password };
+				var newUser = { name: name, username: username, password: password };
 	
 				fetch('/api/create', {
 					method: 'post',
@@ -25813,16 +25812,14 @@
 					_react2.default.createElement(
 						'p',
 						null,
-						'React Home'
+						'Sign Up Form'
 					),
 					_react2.default.createElement(
 						'form',
 						{ onSubmit: this.createUser.bind(this) },
-						_react2.default.createElement('input', { type: 'text', placeholder: 'firstName', ref: 'firstName' }),
+						_react2.default.createElement('input', { type: 'text', placeholder: 'name', ref: 'name' }),
 						_react2.default.createElement('br', null),
-						_react2.default.createElement('input', { type: 'text', placeholder: 'lastName', ref: 'lastName' }),
-						_react2.default.createElement('br', null),
-						_react2.default.createElement('input', { type: 'text', placeholder: 'userName', ref: 'userName' }),
+						_react2.default.createElement('input', { type: 'text', placeholder: 'username', ref: 'username' }),
 						_react2.default.createElement('br', null),
 						_react2.default.createElement('input', { type: 'password', placeholder: 'password', ref: 'password' }),
 						_react2.default.createElement('br', null),

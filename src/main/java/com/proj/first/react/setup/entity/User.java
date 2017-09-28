@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import lombok.Data;
 
 @Entity
@@ -15,9 +18,24 @@ public class User {
 	@GeneratedValue
 	private Integer id;
 
-	private String firstName;
-	private String lastName;
-	private String userName;
+	private String name;
+	private String username;
+			
 	private String password;
+	
+	public String hashPassword(String password_plaintext) {
+		return BCrypt.hashpw(password_plaintext, BCrypt.gensalt());
+	}
+
+	public String passwordEncoder(String password) {
+		int i = 0;
+		String hashedPassword = null;
+		while (i < 10) {
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			hashedPassword = passwordEncoder.encode(password);
+			i++;
+		}
+		return hashedPassword;
+	}
 
 }

@@ -29,7 +29,9 @@ public class MainController {
 
 	@RequestMapping(value = "/api/create", method = RequestMethod.POST, produces = { "application/json" })
 	public ResponseEntity<User> create(@RequestBody User user) {
+		user.setPassword(user.passwordEncoder(user.getPassword()));
 		userRepository.save(user);
 		return ResponseEntity.ok(user);
 	}
+
 }

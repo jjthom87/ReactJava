@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import List from './list';
+import List from './list.jsx';
 
 export default class App extends Component {
 	constructor(props) {

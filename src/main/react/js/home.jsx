@@ -9,12 +9,11 @@ export default class Home extends Component {
 	}
 	createUser(e){
 		e.preventDefault();
-		const firstName = this.refs.firstName.value;
-        const lastName = this.refs.lastName.value;
-        const userName = this.refs.userName.value;
+        const name = this.refs.name.value;
+        const username = this.refs.username.value;
         const password = this.refs.password.value;
 
-        const newUser = { firstName, lastName, userName, password }
+        const newUser = { name, username, password }
 
 		fetch('/api/create', {
             method: 'post',
@@ -25,19 +24,17 @@ export default class Home extends Component {
             }
         	}).then((response) => response.json())
             .then((results) => {
-            	console.log(results)
+            	    console.log(results)
             });
 	}
 	render() {
 		return (
 			<div>
-				<p>React Home</p>
+				<p>Sign Up Form</p>
 				<form onSubmit={this.createUser.bind(this)}>
-					<input type="text" placeholder="firstName" ref="firstName"/>
+					<input type="text" placeholder="name" ref="name"/>
 					<br></br>
-					<input type="text" placeholder="lastName" ref="lastName"/>
-					<br></br>
-					<input type="text" placeholder="userName" ref="userName"/>
+					<input type="text" placeholder="username" ref="username"/>
 					<br></br>
 					<input type="password" placeholder="password" ref="password"/>
 					<br></br>
