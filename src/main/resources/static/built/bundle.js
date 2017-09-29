@@ -25454,14 +25454,19 @@
 	
 	var _user_home2 = _interopRequireDefault(_user_home);
 	
+	var _frontpage = __webpack_require__(230);
+	
+	var _frontpage2 = _interopRequireDefault(_frontpage);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = _react2.default.createElement(
 		_reactRouter.Route,
 		{ component: _application2.default },
-		_react2.default.createElement(_reactRouter.Route, { path: '/', component: _home2.default }),
+		_react2.default.createElement(_reactRouter.Route, { path: '/', component: _frontpage2.default }),
 		_react2.default.createElement(_reactRouter.Route, { path: '/home', component: _app2.default }),
 		_react2.default.createElement(_reactRouter.Route, { path: '/login', component: _login2.default }),
+		_react2.default.createElement(_reactRouter.Route, { path: '/register', component: _home2.default }),
 		_react2.default.createElement(_reactRouter.Route, { path: '/userhome', component: _user_home2.default })
 	);
 
@@ -25909,6 +25914,13 @@
 				});
 			}
 		}, {
+			key: 'componentWillMount',
+			value: function componentWillMount() {
+				if (localStorage.getItem('creds')) {
+					_reactRouter.browserHistory.push('/userhome');
+				}
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -25953,6 +25965,8 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _reactRouter = __webpack_require__(159);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -25969,13 +25983,24 @@
 	
 	        var _this = _possibleConstructorReturn(this, (UserHome.__proto__ || Object.getPrototypeOf(UserHome)).call(this, props));
 	
-	        _this.state = {};
+	        _this.state = {
+	            user: ''
+	        };
 	        return _this;
 	    }
 	
 	    _createClass(UserHome, [{
+	        key: 'onLogout',
+	        value: function onLogout() {
+	            localStorage.removeItem('creds');
+	            localStorage.removeItem('user');
+	            _reactRouter.browserHistory.push('/');
+	        }
+	    }, {
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
+	            var _this2 = this;
+	
 	            fetch('/api/userhome', {
 	                headers: {
 	                    Auth: localStorage.getItem('creds'),
@@ -25987,13 +26012,33 @@
 	            }).then(function (response) {
 	                return response.json();
 	            }).then(function (results) {
-	                console.log(results);
+	                _this2.setState({
+	                    user: results
+	                });
 	            });
+	            if (!localStorage.getItem('creds')) {
+	                _reactRouter.browserHistory.push('/');
+	            }
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement('div', null);
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'button',
+	                    { onClick: this.onLogout.bind(this) },
+	                    'Logout'
+	                ),
+	                _react2.default.createElement('br', null),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Welcome ',
+	                    this.state.user.name
+	                )
+	            );
 	        }
 	    }]);
 	
@@ -26001,6 +26046,79 @@
 	}(_react.Component);
 	
 	exports.default = UserHome;
+
+/***/ }),
+/* 230 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(159);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var FrontPage = function (_Component) {
+	    _inherits(FrontPage, _Component);
+	
+	    function FrontPage(props) {
+	        _classCallCheck(this, FrontPage);
+	
+	        var _this = _possibleConstructorReturn(this, (FrontPage.__proto__ || Object.getPrototypeOf(FrontPage)).call(this, props));
+	
+	        _this.state = {};
+	        return _this;
+	    }
+	
+	    _createClass(FrontPage, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {}
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { to: '/register' },
+	                    'Sign Up'
+	                ),
+	                _react2.default.createElement('br', null),
+	                _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { to: '/login' },
+	                    'Login'
+	                ),
+	                _react2.default.createElement('p', null),
+	                _react2.default.createElement(
+	                    'h1',
+	                    null,
+	                    'Welcome to my homepage'
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return FrontPage;
+	}(_react.Component);
+	
+	exports.default = FrontPage;
 
 /***/ })
 /******/ ]);

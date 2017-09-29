@@ -32,6 +32,11 @@ export default class Login extends Component {
                }
         });
 	}
+	componentWillMount(){
+	    if(localStorage.getItem('creds')){
+	        browserHistory.push('/userhome')
+	    }
+	}
 	render() {
 		return (
 			<div>
