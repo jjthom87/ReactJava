@@ -2,6 +2,7 @@ package com.proj.first.react.setup.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,12 @@ public class MainController {
 			response.sendError(401, "Unauthorized");
 		}
 		return ResponseEntity.ok(loggedIn);
+	}
+
+	@ModelAttribute
+	@RequestMapping(value = "/api/userhome", method = RequestMethod.GET, produces = { "application/json" })
+	public @ResponseBody ResponseEntity<User> userHome(HttpServletRequest request) throws IOException {
+		return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
 	}
 
 }

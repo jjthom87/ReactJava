@@ -11,5 +11,6 @@ public class Util {
 	public void createAndAddCreds(HttpServletResponse response, String user, String password) {
 		byte[] authEncBytes = Base64.encodeBase64((user + ":" + password).getBytes());
 		response.addHeader("Authorization", "Basic " + new String(authEncBytes));
+		response.addHeader("CurrentUser", user);
 	}
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Router , browserHistory } from 'react-router';
 
 export default class Login extends Component {
 
@@ -24,6 +25,10 @@ export default class Login extends Component {
         	}).then((response) => {
                if(response.status == 200){
                    localStorage.setItem('creds', response.headers.get('Authorization'));
+                   localStorage.setItem('user', response.headers.get('CurrentUser'))
+                   browserHistory.push('/userhome');
+               } else {
+                   alert ('Incorrect Login Credentials');
                }
         });
 	}
