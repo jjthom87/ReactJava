@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,12 +61,6 @@ public class MainController {
 	@RequestMapping(value = "/api/userhome", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody ResponseEntity<User> userHome(HttpServletRequest request) throws IOException {
 		return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
-	}
-	
-	@ModelAttribute
-	@RequestMapping(value = "/api/login", method = RequestMethod.GET, produces = { "application/json" })
-	public @ResponseBody ResponseEntity<Boolean> checkIfLoggedIn(HttpServletRequest request) throws IOException {
-		return ResponseEntity.ok(StringUtils.isEmpty(request.getHeader("User")));
 	}
 
 }
