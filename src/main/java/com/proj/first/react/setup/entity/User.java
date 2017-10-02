@@ -1,5 +1,6 @@
 package com.proj.first.react.setup.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import lombok.Data;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users_three")
 @Data
 public class User {
 	@Id
@@ -18,7 +19,10 @@ public class User {
 	private Integer id;
 
 	private String name;
+	
+	@Column(unique=true)
 	private String username;
+	
 	private String password;
 	
 	public String hashPassword(String password_plaintext) {

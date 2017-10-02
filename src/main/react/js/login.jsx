@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router , browserHistory } from 'react-router';
+import { Router , browserHistory, Link } from 'react-router';
 
 export default class Login extends Component {
 
@@ -48,6 +48,8 @@ export default class Login extends Component {
 					<br></br>
 					<input type="submit"/>
 				</form>
+                <br></br>
+                <p>Havent Signed Up. Please <Link to="/register">Sign Up</Link></p>
 			</div>
 		)
 	}

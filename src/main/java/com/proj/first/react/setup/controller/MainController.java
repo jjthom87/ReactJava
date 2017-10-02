@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,8 @@ public class MainController {
 
 	@Autowired
 	private Util util;
+	
+	final static Logger logger = Logger.getLogger(MainController.class);
 
 	@RequestMapping(value = "/*", method = RequestMethod.GET)
 	public String index() {
@@ -38,10 +41,16 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/api/create", method = RequestMethod.POST, produces = { "application/json" })
-	public ResponseEntity<User> create(@RequestBody User user) {
-		user.setPassword(user.hashPassword(user.getPassword()));
-		userRepository.save(user);
-		return ResponseEntity.ok(user);
+	public ResponseEntity<String> create(@RequestBody User user, HttpServletResponse response) throws IOException {
+		try {
+			user.setPassword(user.hashPassword(user.getPassword()));
+			userRepository.save(user);
+			return ResponseEntity.ok("{\"username\":\"" + user.getUsername() + "\"}");
+		} catch (Exception e) {
+			logger.info("Error: " + e.getMessage());
+			response.sendError(500, "Username Taken");;
+			return ResponseEntity.ok(e.getMessage());
+		}
 	}
 
 	@ModelAttribute

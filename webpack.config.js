@@ -1,25 +1,37 @@
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
-    entry: './src/main/react/js/main.jsx',
+    entry: [
+		'./src/main/react/js/main.jsx'
+    ],
     devtool: 'sourcemaps',
-    cache: true,
-    debug: true,
     output: {
         path: __dirname,
         filename: './src/main/resources/static/built/bundle.js'
     },
-    module: {
-        loaders: [
-            {
-                test: path.join(__dirname, '.'),
-                exclude: /(node_modules)/,
-                loader: 'babel',
-                query: {
-                    cacheDirectory: true,
-                    presets: ['es2015', 'react']
-                }
-            }
-        ]
-    }
+	resolve: {
+		root: __dirname,
+		extensions: ['', '.js', '.jsx'],
+		alias: {
+			app: 'src/main/react/js/main.jsx',
+		}
+	},
+	module: {
+		loaders: [
+			{
+				loader: 'babel-loader',
+				query: {
+					presets: ['react', 'es2015', 'stage-0']
+				},
+				test: /\.jsx?$/,
+				exclude: /(node_modules|bower_components)/
+			}
+		]
+	},
+	sassLoader: {
+		includePaths: [
+			path.resolve(__dirname, './node_modules/foundation-sites/scss')
+		]
+	}
 };

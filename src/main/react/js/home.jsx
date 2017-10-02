@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link, browserHistory} from 'react-router';
 
 export default class Home extends Component {
 
@@ -23,9 +24,14 @@ export default class Home extends Component {
                 'accept': 'application/json'
             }
         	}).then((response) => response.json())
-            .then((results) => {
-            	    console.log(results)
-            });
+        .then((results) => {
+            if(results.username){
+                browserHistory.push('/login');
+            }
+            if(results.message === "Username Taken"){
+                alert("Username has already been taken. Please input another one")
+            }
+        });
 	}
 	render() {
 		return (
@@ -40,6 +46,8 @@ export default class Home extends Component {
 					<br></br>
 					<input type="submit"/>
 				</form>
+				<br></br>
+				<p>Already a member. Please <Link to="/login">Login</Link></p>
 			</div>
 		)
 	}
