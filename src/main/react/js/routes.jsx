@@ -1,16 +1,17 @@
 import React from 'react';
 import {Route} from 'react-router';
 
-import App from './app.jsx';
-import Application from './application.jsx';
-import Register from './register.jsx';
-import Login from './login.jsx';
-import UserHome from './user_home.jsx';
-import FrontPage from './frontpage.jsx';
+import Application from './components/application.jsx';
+
+import App from './components/pages/app.jsx';
+import Register from './components/pages/register.jsx';
+import Login from './components/pages/login.jsx';
+import UserHome from './components/pages/user_home.jsx';
+import MainPage from './components/pages/main_page.jsx';
 
 export default (
 	<Route component={Application}>
-		<Route path="/" component={FrontPage}/>
+		<Route path="/" component={MainPage}/>
 		<Route path="/home" component={App}/>
         <Route path="/login" component={Login}/>
         <Route path="/register" component={Register}/>

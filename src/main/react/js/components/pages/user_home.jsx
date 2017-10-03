@@ -1,26 +1,14 @@
 import React, { Component } from 'react';
 import {Link, browserHistory} from 'react-router';
 
+import UserHomeNav from './../navs/user_home_nav.jsx';
+
 export default class UserHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
             user: ''
         }
-    }
-    onLogout(){
-        fetch('/api/logout', {
-            headers: {
-                'content-type': 'application/json',
-                'accept': 'application/json'
-            }
-            }).then((response) => {
-               if(response.status == 200){
-                   localStorage.removeItem('creds');
-                   localStorage.removeItem('user');
-                   browserHistory.push('/');
-               }
-        });
     }
     componentWillMount() {
         fetch('/api/userhome', {
@@ -45,9 +33,11 @@ export default class UserHome extends Component {
     render() {
         return (
             <div>
-                <button onClick={this.onLogout.bind(this)}>Logout</button>
+                <UserHomeNav/>
                 <br></br>
-                <p>Welcome {this.state.user.name}</p>
+                <div className="text-center">
+                    <p>Welcome {this.state.user.name}</p>
+                </div>
             </div>
         )
     }
