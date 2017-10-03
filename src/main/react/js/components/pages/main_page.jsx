@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router';
 
+import MainPageNav from '../navs/main_page_nav.jsx';
+
 export default class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -12,11 +14,8 @@ export default class MainPage extends Component {
     render() {
         return (
             <div>
-                <Link to="/register">Sign Up</Link>
-                <br></br>
-                <Link to="/login">Login</Link>
-                <p></p>
-                <h1>Welcome to my homepage</h1>
+                <MainPageNav/>
+                <h1 className="text-center">Welcome to my homepage</h1>
             </div>
         )
     }

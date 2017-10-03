@@ -1,0 +1,15 @@
+.main-nav-register-link {
+	padding: 10px;
+}
+
+.main-nav-register-link:hover {
+	background-color: yellow;
+}
+
+.main-nav-login-link {
+	padding: 10px;
+}
+
+.main-nav-login-link:hover {
+	background-color: yellow;
+}

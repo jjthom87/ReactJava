@@ -51,11 +51,17 @@ export default class Login extends Component {
 			<div>
 				<p>Login Form</p>
 				<form onSubmit={this.loginUser.bind(this)}>
-					<input type="text" placeholder="username" ref="username"/>
-					<br></br>
-					<input type="password" placeholder="password" ref="password"/>
-					<br></br>
-					<input type="submit"/>
+				    <div className="grid-container">
+				        <div className="grid-x grid-padding-x">
+				            <div className="medium-6 cell">
+                					<input type="text" placeholder="username" ref="username"/>
+                					<br></br>
+                					<input type="password" placeholder="password" ref="password"/>
+                					<br></br>
+                					<input type="submit"/>
+				            </div>
+				        </div>
+				    </div>
 				</form>
                 <br></br>
                 <p>Havent Signed Up. Please <Link to="/register">Sign Up</Link></p>

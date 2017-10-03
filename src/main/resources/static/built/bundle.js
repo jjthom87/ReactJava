@@ -25969,11 +25969,23 @@
 	                _react2.default.createElement(
 	                    'form',
 	                    { onSubmit: this.loginUser.bind(this) },
-	                    _react2.default.createElement('input', { type: 'text', placeholder: 'username', ref: 'username' }),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement('input', { type: 'password', placeholder: 'password', ref: 'password' }),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement('input', { type: 'submit' })
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'grid-container' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'grid-x grid-padding-x' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'medium-6 cell' },
+	                                _react2.default.createElement('input', { type: 'text', placeholder: 'username', ref: 'username' }),
+	                                _react2.default.createElement('br', null),
+	                                _react2.default.createElement('input', { type: 'password', placeholder: 'password', ref: 'password' }),
+	                                _react2.default.createElement('br', null),
+	                                _react2.default.createElement('input', { type: 'submit' })
+	                            )
+	                        )
+	                    )
 	                ),
 	                _react2.default.createElement('br', null),
 	                _react2.default.createElement(
@@ -26187,6 +26199,10 @@
 	
 	var _reactRouter = __webpack_require__(160);
 	
+	var _main_page_nav = __webpack_require__(233);
+	
+	var _main_page_nav2 = _interopRequireDefault(_main_page_nav);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26216,21 +26232,10 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(
-	                    _reactRouter.Link,
-	                    { to: '/register' },
-	                    'Sign Up'
-	                ),
-	                _react2.default.createElement('br', null),
-	                _react2.default.createElement(
-	                    _reactRouter.Link,
-	                    { to: '/login' },
-	                    'Login'
-	                ),
-	                _react2.default.createElement('p', null),
+	                _react2.default.createElement(_main_page_nav2.default, null),
 	                _react2.default.createElement(
 	                    'h1',
-	                    null,
+	                    { className: 'text-center' },
 	                    'Welcome to my homepage'
 	                )
 	            );
@@ -26241,6 +26246,132 @@
 	}(_react.Component);
 	
 	exports.default = MainPage;
+
+/***/ }),
+/* 233 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(160);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var MainPageNav = function (_Component) {
+	    _inherits(MainPageNav, _Component);
+	
+	    function MainPageNav(props) {
+	        _classCallCheck(this, MainPageNav);
+	
+	        var _this = _possibleConstructorReturn(this, (MainPageNav.__proto__ || Object.getPrototypeOf(MainPageNav)).call(this, props));
+	
+	        _this.state = {
+	            loggedInUser: null
+	        };
+	        return _this;
+	    }
+	
+	    _createClass(MainPageNav, [{
+	        key: 'onLogout',
+	        value: function onLogout() {
+	            fetch('/api/logout', {
+	                headers: {
+	                    'content-type': 'application/json',
+	                    'accept': 'application/json'
+	                }
+	            }).then(function (response) {
+	                if (response.status == 200) {
+	                    localStorage.removeItem('creds');
+	                    localStorage.removeItem('user');
+	                    _reactRouter.browserHistory.push('/login');
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            var _this2 = this;
+	
+	            fetch('/api/mainpage', {
+	                headers: {
+	                    Auth: localStorage.getItem('creds'),
+	                    User: localStorage.getItem('user'),
+	                    'content-type': 'application/json',
+	                    'accept': 'application/json'
+	                },
+	                credentials: 'include'
+	            }).then(function (response) {
+	                return response.json();
+	            }).then(function (results) {
+	                if (results.id != null) {
+	                    _this2.setState({
+	                        loggedInUser: results
+	                    });
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this3 = this;
+	
+	            var renderLogout = function renderLogout() {
+	                if (_this3.state.loggedInUser != null) {
+	                    return _react2.default.createElement(
+	                        'div',
+	                        { className: 'top-bar-right' },
+	                        _react2.default.createElement(
+	                            'button',
+	                            { type: 'button', className: 'alert button', onClick: _this3.onLogout.bind(_this3) },
+	                            'Logout'
+	                        )
+	                    );
+	                } else {
+	                    return _react2.default.createElement('div', null);
+	                }
+	            };
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'top-bar' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'top-bar-left' },
+	                    _react2.default.createElement(
+	                        _reactRouter.Link,
+	                        { className: 'main-nav-register-link', to: '/register' },
+	                        'Register'
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactRouter.Link,
+	                        { className: 'main-nav-login-link', to: '/login' },
+	                        'Login'
+	                    )
+	                ),
+	                renderLogout()
+	            );
+	        }
+	    }]);
+	
+	    return MainPageNav;
+	}(_react.Component);
+	
+	exports.default = MainPageNav;
 
 /***/ })
 /******/ ]);

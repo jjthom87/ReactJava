@@ -87,5 +87,13 @@ public class MainController {
 	public @ResponseBody ResponseEntity<String> logout(HttpServletRequest request) throws IOException {
 		return ResponseEntity.ok("{\"userLoggedOut\":true}");
 	}
+	
+	@RequestMapping(value = "/api/mainpage", method = RequestMethod.GET, produces = { "application/json" })
+	public @ResponseBody ResponseEntity<User> mainPage(HttpServletRequest request) throws IOException {
+		if(!"null".equals(request.getHeader("User"))) {
+			return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
+		}
+		return ResponseEntity.ok(new User());
+	}
 
 }
