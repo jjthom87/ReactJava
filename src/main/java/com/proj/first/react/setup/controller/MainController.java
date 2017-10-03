@@ -49,7 +49,6 @@ public class MainController {
 		} catch (Exception e) {
 			logger.info("Error: " + e.getMessage());
 			response.sendError(500, "Username Taken");
-			;
 			return ResponseEntity.ok(e.getMessage());
 		}
 	}
