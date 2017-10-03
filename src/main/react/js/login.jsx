@@ -33,9 +33,18 @@ export default class Login extends Component {
         });
 	}
 	componentWillMount(){
-	    if(localStorage.getItem('creds')){
-	        browserHistory.push('/userhome')
-	    }
+        fetch('/api/login-page', {
+            headers: {
+                User: localStorage.getItem('user'),
+                'content-type': 'application/json',
+                'accept': 'application/json'
+            },
+        }).then((response) => response.json())
+        .then((results) => {
+            if(results.userLoggedIn){
+                browserHistory.push('/userhome')
+            }
+        });
 	}
 	render() {
 		return (

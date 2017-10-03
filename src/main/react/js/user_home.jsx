@@ -9,9 +9,18 @@ export default class UserHome extends Component {
         }
     }
     onLogout(){
-        localStorage.removeItem('creds');
-        localStorage.removeItem('user');
-        browserHistory.push('/');
+        fetch('/api/logout', {
+            headers: {
+                'content-type': 'application/json',
+                'accept': 'application/json'
+            }
+            }).then((response) => {
+               if(response.status == 200){
+                   localStorage.removeItem('creds');
+                   localStorage.removeItem('user');
+                   browserHistory.push('/');
+               }
+        });
     }
     componentWillMount() {
         fetch('/api/userhome', {
@@ -24,13 +33,14 @@ export default class UserHome extends Component {
             credentials: 'include'
         }).then((response) => response.json())
         .then((results) => {
-            this.setState({
-                user: results
-            })
+            if(results.id != null){
+                this.setState({
+                    user: results
+                })
+            } else {
+                browserHistory.push('/');
+            }
         });
-        if(!localStorage.getItem('creds')){
-            browserHistory.push('/');
-        }
     }
     render() {
         return (

@@ -27,7 +27,7 @@ public class MainController {
 
 	@Autowired
 	private Util util;
-	
+
 	final static Logger logger = Logger.getLogger(MainController.class);
 
 	@RequestMapping(value = "/*", method = RequestMethod.GET)
@@ -48,7 +48,8 @@ public class MainController {
 			return ResponseEntity.ok("{\"username\":\"" + user.getUsername() + "\"}");
 		} catch (Exception e) {
 			logger.info("Error: " + e.getMessage());
-			response.sendError(500, "Username Taken");;
+			response.sendError(500, "Username Taken");
+			;
 			return ResponseEntity.ok(e.getMessage());
 		}
 	}
@@ -69,7 +70,23 @@ public class MainController {
 	@ModelAttribute
 	@RequestMapping(value = "/api/userhome", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody ResponseEntity<User> userHome(HttpServletRequest request) throws IOException {
-		return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
+		if (!"null".equals(request.getHeader("User"))) {
+			return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
+		}
+		return ResponseEntity.ok(new User());
+	}
+
+	@RequestMapping(value = "/api/login-page", method = RequestMethod.GET, produces = { "application/json" })
+	public @ResponseBody ResponseEntity<String> loginPage(HttpServletRequest request) throws IOException {
+		if (!"null".equals(request.getHeader("User"))) {
+			return ResponseEntity.ok("{\"userLoggedIn\":true}");
+		}
+		return ResponseEntity.ok("{\"userLoggedIn\":false}");
+	}
+
+	@RequestMapping(value = "/api/logout", method = RequestMethod.GET, produces = { "application/json" })
+	public @ResponseBody ResponseEntity<String> logout(HttpServletRequest request) throws IOException {
+		return ResponseEntity.ok("{\"userLoggedOut\":true}");
 	}
 
 }

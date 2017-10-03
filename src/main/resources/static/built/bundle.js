@@ -25449,9 +25449,9 @@
 	
 	var _application2 = _interopRequireDefault(_application);
 	
-	var _home = __webpack_require__(228);
+	var _register = __webpack_require__(228);
 	
-	var _home2 = _interopRequireDefault(_home);
+	var _register2 = _interopRequireDefault(_register);
 	
 	var _login = __webpack_require__(229);
 	
@@ -25473,7 +25473,7 @@
 		_react2.default.createElement(_reactRouter.Route, { path: '/', component: _frontpage2.default }),
 		_react2.default.createElement(_reactRouter.Route, { path: '/home', component: _app2.default }),
 		_react2.default.createElement(_reactRouter.Route, { path: '/login', component: _login2.default }),
-		_react2.default.createElement(_reactRouter.Route, { path: '/register', component: _home2.default }),
+		_react2.default.createElement(_reactRouter.Route, { path: '/register', component: _register2.default }),
 		_react2.default.createElement(_reactRouter.Route, { path: '/userhome', component: _user_home2.default })
 	);
 
@@ -25792,19 +25792,19 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Home = function (_Component) {
-		_inherits(Home, _Component);
+	var Register = function (_Component) {
+		_inherits(Register, _Component);
 	
-		function Home(props) {
-			_classCallCheck(this, Home);
+		function Register(props) {
+			_classCallCheck(this, Register);
 	
-			var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (Register.__proto__ || Object.getPrototypeOf(Register)).call(this, props));
 	
 			_this.state = {};
 			return _this;
 		}
 	
-		_createClass(Home, [{
+		_createClass(Register, [{
 			key: 'createUser',
 			value: function createUser(e) {
 				e.preventDefault();
@@ -25869,10 +25869,10 @@
 			}
 		}]);
 	
-		return Home;
+		return Register;
 	}(_react.Component);
 	
-	exports.default = Home;
+	exports.default = Register;
 
 /***/ }),
 /* 229 */
@@ -25881,7 +25881,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	    value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -25901,86 +25901,96 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var Login = function (_Component) {
-		_inherits(Login, _Component);
+	    _inherits(Login, _Component);
 	
-		function Login(props) {
-			_classCallCheck(this, Login);
+	    function Login(props) {
+	        _classCallCheck(this, Login);
 	
-			var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
 	
-			_this.state = {};
-			return _this;
-		}
+	        _this.state = {};
+	        return _this;
+	    }
 	
-		_createClass(Login, [{
-			key: 'loginUser',
-			value: function loginUser(e) {
-				e.preventDefault();
-				var username = this.refs.username.value;
-				var password = this.refs.password.value;
+	    _createClass(Login, [{
+	        key: 'loginUser',
+	        value: function loginUser(e) {
+	            e.preventDefault();
+	            var username = this.refs.username.value;
+	            var password = this.refs.password.value;
 	
-				var newUser = { username: username, password: password };
+	            var newUser = { username: username, password: password };
 	
-				fetch('/api/login', {
-					method: 'post',
-					body: JSON.stringify(newUser),
-					headers: {
-						'content-type': 'application/json',
-						'accept': 'application/json'
-					}
-				}).then(function (response) {
-					if (response.status == 200) {
-						localStorage.setItem('creds', response.headers.get('Authorization'));
-						localStorage.setItem('user', response.headers.get('CurrentUser'));
-						_reactRouter.browserHistory.push('/userhome');
-					} else {
-						alert('Incorrect Login Credentials');
-					}
-				});
-			}
-		}, {
-			key: 'componentWillMount',
-			value: function componentWillMount() {
-				if (localStorage.getItem('creds')) {
-					_reactRouter.browserHistory.push('/userhome');
-				}
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(
-						'p',
-						null,
-						'Login Form'
-					),
-					_react2.default.createElement(
-						'form',
-						{ onSubmit: this.loginUser.bind(this) },
-						_react2.default.createElement('input', { type: 'text', placeholder: 'username', ref: 'username' }),
-						_react2.default.createElement('br', null),
-						_react2.default.createElement('input', { type: 'password', placeholder: 'password', ref: 'password' }),
-						_react2.default.createElement('br', null),
-						_react2.default.createElement('input', { type: 'submit' })
-					),
-					_react2.default.createElement('br', null),
-					_react2.default.createElement(
-						'p',
-						null,
-						'Havent Signed Up. Please ',
-						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/register' },
-							'Sign Up'
-						)
-					)
-				);
-			}
-		}]);
+	            fetch('/api/login', {
+	                method: 'post',
+	                body: JSON.stringify(newUser),
+	                headers: {
+	                    'content-type': 'application/json',
+	                    'accept': 'application/json'
+	                }
+	            }).then(function (response) {
+	                if (response.status == 200) {
+	                    localStorage.setItem('creds', response.headers.get('Authorization'));
+	                    localStorage.setItem('user', response.headers.get('CurrentUser'));
+	                    _reactRouter.browserHistory.push('/userhome');
+	                } else {
+	                    alert('Incorrect Login Credentials');
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            fetch('/api/login-page', {
+	                headers: {
+	                    User: localStorage.getItem('user'),
+	                    'content-type': 'application/json',
+	                    'accept': 'application/json'
+	                }
+	            }).then(function (response) {
+	                return response.json();
+	            }).then(function (results) {
+	                if (results.userLoggedIn) {
+	                    _reactRouter.browserHistory.push('/userhome');
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Login Form'
+	                ),
+	                _react2.default.createElement(
+	                    'form',
+	                    { onSubmit: this.loginUser.bind(this) },
+	                    _react2.default.createElement('input', { type: 'text', placeholder: 'username', ref: 'username' }),
+	                    _react2.default.createElement('br', null),
+	                    _react2.default.createElement('input', { type: 'password', placeholder: 'password', ref: 'password' }),
+	                    _react2.default.createElement('br', null),
+	                    _react2.default.createElement('input', { type: 'submit' })
+	                ),
+	                _react2.default.createElement('br', null),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Havent Signed Up. Please ',
+	                    _react2.default.createElement(
+	                        _reactRouter.Link,
+	                        { to: '/register' },
+	                        'Sign Up'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
 	
-		return Login;
+	    return Login;
 	}(_react.Component);
 	
 	exports.default = Login;
@@ -26028,9 +26038,18 @@
 	    _createClass(UserHome, [{
 	        key: 'onLogout',
 	        value: function onLogout() {
-	            localStorage.removeItem('creds');
-	            localStorage.removeItem('user');
-	            _reactRouter.browserHistory.push('/');
+	            fetch('/api/logout', {
+	                headers: {
+	                    'content-type': 'application/json',
+	                    'accept': 'application/json'
+	                }
+	            }).then(function (response) {
+	                if (response.status == 200) {
+	                    localStorage.removeItem('creds');
+	                    localStorage.removeItem('user');
+	                    _reactRouter.browserHistory.push('/');
+	                }
+	            });
 	        }
 	    }, {
 	        key: 'componentWillMount',
@@ -26048,13 +26067,14 @@
 	            }).then(function (response) {
 	                return response.json();
 	            }).then(function (results) {
-	                _this2.setState({
-	                    user: results
-	                });
+	                if (results.id != null) {
+	                    _this2.setState({
+	                        user: results
+	                    });
+	                } else {
+	                    _reactRouter.browserHistory.push('/');
+	                }
 	            });
-	            if (!localStorage.getItem('creds')) {
-	                _reactRouter.browserHistory.push('/');
-	            }
 	        }
 	    }, {
 	        key: 'render',
