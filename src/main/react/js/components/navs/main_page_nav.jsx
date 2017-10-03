@@ -18,7 +18,9 @@ export default class MainPageNav extends Component {
                if(response.status == 200){
                    localStorage.removeItem('creds');
                    localStorage.removeItem('user');
-                   browserHistory.push('/login');
+                   this.setState({
+                       loggedInUser: null
+                   })
                }
         });
     }
@@ -41,7 +43,7 @@ export default class MainPageNav extends Component {
         });
     }
     render() {
-        var renderLogout = () => {
+        var renderNav = () => {
             if(this.state.loggedInUser != null){
                 return(
                     <div className="top-bar-right">
@@ -49,18 +51,17 @@ export default class MainPageNav extends Component {
                     </div>     
                 )
             } else {
-                return(
-                   <div></div>
+                return (
+                    <div className="top-bar-left">
+                        <Link className="main-nav-register-link" to="/register">Register</Link>
+                        <Link className="main-nav-login-link" to="/login">Login</Link>
+                    </div>
                 )
             }
         }
         return (
           <div className="top-bar">
-                <div className="top-bar-left">
-                    <Link className="main-nav-register-link" to="/register">Register</Link>
-                    <Link className="main-nav-login-link" to="/login">Login</Link>
-                </div>
-                {renderLogout()}
+                {renderNav()}
           </div>
         )
     }

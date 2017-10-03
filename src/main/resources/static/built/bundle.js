@@ -26290,6 +26290,8 @@
 	    _createClass(MainPageNav, [{
 	        key: 'onLogout',
 	        value: function onLogout() {
+	            var _this2 = this;
+	
 	            fetch('/api/logout', {
 	                headers: {
 	                    'content-type': 'application/json',
@@ -26299,14 +26301,16 @@
 	                if (response.status == 200) {
 	                    localStorage.removeItem('creds');
 	                    localStorage.removeItem('user');
-	                    _reactRouter.browserHistory.push('/login');
+	                    _this2.setState({
+	                        loggedInUser: null
+	                    });
 	                }
 	            });
 	        }
 	    }, {
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
-	            var _this2 = this;
+	            var _this3 = this;
 	
 	            fetch('/api/mainpage', {
 	                headers: {
@@ -26320,7 +26324,7 @@
 	                return response.json();
 	            }).then(function (results) {
 	                if (results.id != null) {
-	                    _this2.setState({
+	                    _this3.setState({
 	                        loggedInUser: results
 	                    });
 	                }
@@ -26329,41 +26333,40 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this3 = this;
+	            var _this4 = this;
 	
-	            var renderLogout = function renderLogout() {
-	                if (_this3.state.loggedInUser != null) {
+	            var renderNav = function renderNav() {
+	                if (_this4.state.loggedInUser != null) {
 	                    return _react2.default.createElement(
 	                        'div',
 	                        { className: 'top-bar-right' },
 	                        _react2.default.createElement(
 	                            'button',
-	                            { type: 'button', className: 'alert button', onClick: _this3.onLogout.bind(_this3) },
+	                            { type: 'button', className: 'alert button', onClick: _this4.onLogout.bind(_this4) },
 	                            'Logout'
 	                        )
 	                    );
 	                } else {
-	                    return _react2.default.createElement('div', null);
+	                    return _react2.default.createElement(
+	                        'div',
+	                        { className: 'top-bar-left' },
+	                        _react2.default.createElement(
+	                            _reactRouter.Link,
+	                            { className: 'main-nav-register-link', to: '/register' },
+	                            'Register'
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactRouter.Link,
+	                            { className: 'main-nav-login-link', to: '/login' },
+	                            'Login'
+	                        )
+	                    );
 	                }
 	            };
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'top-bar' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'top-bar-left' },
-	                    _react2.default.createElement(
-	                        _reactRouter.Link,
-	                        { className: 'main-nav-register-link', to: '/register' },
-	                        'Register'
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactRouter.Link,
-	                        { className: 'main-nav-login-link', to: '/login' },
-	                        'Login'
-	                    )
-	                ),
-	                renderLogout()
+	                renderNav()
 	            );
 	        }
 	    }]);
