@@ -26339,7 +26339,12 @@
 	                if (_this4.state.loggedInUser != null) {
 	                    return _react2.default.createElement(
 	                        'div',
-	                        { className: 'top-bar-right' },
+	                        { className: 'top-bar-right', id: 'main-nav-top-bar-right' },
+	                        _react2.default.createElement(
+	                            'p',
+	                            { className: 'nav-name' },
+	                            _this4.state.loggedInUser.name
+	                        ),
 	                        _react2.default.createElement(
 	                            'button',
 	                            { type: 'button', className: 'alert button', onClick: _this4.onLogout.bind(_this4) },

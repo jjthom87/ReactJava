@@ -13,3 +13,18 @@
 .main-nav-login-link:hover {
 	background-color: yellow;
 }
+
+#main-nav-top-bar-right{
+	display: inline-flex;
+}
+
+.nav-name {
+	font-family: 'Germania One', cursive;
+	border-style: solid;
+	border-radius: 25px;
+	border-width: 2px;
+	padding: 12px;
+	position: relative;
+	right: 40px;
+	background: lemonchiffon
+}

@@ -46,7 +46,8 @@ export default class MainPageNav extends Component {
         var renderNav = () => {
             if(this.state.loggedInUser != null){
                 return(
-                    <div className="top-bar-right">
+                    <div className="top-bar-right" id="main-nav-top-bar-right">
+                        <p className="nav-name">{this.state.loggedInUser.name}</p>
                         <button type="button" className="alert button" onClick={this.onLogout.bind(this)}>Logout</button>
                     </div>     
                 )
