@@ -11,9 +11,11 @@ export default class MainPageNav extends Component {
     onLogout(){
         fetch('/api/logout', {
             headers: {
+                User: localStorage.getItem('user'),
                 'content-type': 'application/json',
                 'accept': 'application/json'
-            }
+            },
+            credentials: 'include'
             }).then((response) => {
                if(response.status == 200){
                    localStorage.removeItem('creds');

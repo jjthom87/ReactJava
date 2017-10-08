@@ -25930,7 +25930,7 @@
 	                }
 	            }).then(function (response) {
 	                if (response.status == 200) {
-	                    localStorage.setItem('creds', response.headers.get('Authorization'));
+	                    localStorage.setItem('creds', response.headers.get('Auth'));
 	                    localStorage.setItem('user', response.headers.get('CurrentUser'));
 	                    _reactRouter.browserHistory.push('/userhome');
 	                } else {
@@ -25960,7 +25960,7 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                null,
+	                { className: 'text-center' },
 	                _react2.default.createElement(
 	                    'p',
 	                    null,
@@ -25991,12 +25991,13 @@
 	                _react2.default.createElement(
 	                    'p',
 	                    null,
-	                    'Havent Signed Up. Please ',
+	                    'Havent ',
 	                    _react2.default.createElement(
 	                        _reactRouter.Link,
 	                        { to: '/register' },
-	                        'Sign Up'
-	                    )
+	                        'Signed Up'
+	                    ),
+	                    '?'
 	                )
 	            );
 	        }
@@ -26146,6 +26147,7 @@
 	        value: function onLogout() {
 	            fetch('/api/logout', {
 	                headers: {
+	                    User: localStorage.getItem('user'),
 	                    'content-type': 'application/json',
 	                    'accept': 'application/json'
 	                }
@@ -26294,9 +26296,11 @@
 	
 	            fetch('/api/logout', {
 	                headers: {
+	                    User: localStorage.getItem('user'),
 	                    'content-type': 'application/json',
 	                    'accept': 'application/json'
-	                }
+	                },
+	                credentials: 'include'
 	            }).then(function (response) {
 	                if (response.status == 200) {
 	                    localStorage.removeItem('creds');

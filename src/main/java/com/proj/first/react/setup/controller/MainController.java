@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.proj.first.react.setup.entity.User;
+import com.proj.first.react.setup.entity.Token;
+import com.proj.first.react.setup.repository.TokenRepository;
 import com.proj.first.react.setup.repository.UserRepository;
 import com.proj.first.react.setup.security.Util;
 
@@ -24,6 +26,9 @@ public class MainController {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private TokenRepository tokenRepository;
 
 	@Autowired
 	private Util util;
@@ -59,7 +64,7 @@ public class MainController {
 		User loggedInUser = userRepository.findByUsername(user.getUsername());
 		Boolean loggedIn = loggedInUser.checkPassword(user.getPassword(), loggedInUser.getPassword());
 		if (loggedIn) {
-			util.createAndAddCreds(response, user.getUsername(), loggedInUser.getPassword());
+			util.createTokenAndAddToHeader(response, loggedInUser.getId(), loggedInUser.getUsername());
 		} else {
 			response.sendError(401, "Unauthorized");
 		}
@@ -85,12 +90,15 @@ public class MainController {
 
 	@RequestMapping(value = "/api/logout", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody ResponseEntity<String> logout(HttpServletRequest request) throws IOException {
+		User user = userRepository.findByUsername(request.getHeader("User"));
+		Token token = tokenRepository.findByUserId(user.getId());
+		tokenRepository.delete(token);
 		return ResponseEntity.ok("{\"userLoggedOut\":true}");
 	}
-	
+
 	@RequestMapping(value = "/api/mainpage", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody ResponseEntity<User> mainPage(HttpServletRequest request) throws IOException {
-		if(!"null".equals(request.getHeader("User"))) {
+		if (!"null".equals(request.getHeader("User"))) {
 			return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
 		}
 		return ResponseEntity.ok(new User());

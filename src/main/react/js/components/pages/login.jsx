@@ -24,7 +24,7 @@ export default class Login extends Component {
             }
         	}).then((response) => {
                if(response.status == 200){
-                   localStorage.setItem('creds', response.headers.get('Authorization'));
+                   localStorage.setItem('creds', response.headers.get('Auth'));
                    localStorage.setItem('user', response.headers.get('CurrentUser'))
                    browserHistory.push('/userhome');
                } else {
@@ -48,7 +48,7 @@ export default class Login extends Component {
 	}
 	render() {
 		return (
-			<div>
+			<div className="text-center">
 				<p>Login Form</p>
 				<form onSubmit={this.loginUser.bind(this)}>
 				    <div className="grid-container">
@@ -64,7 +64,7 @@ export default class Login extends Component {
 				    </div>
 				</form>
                 <br></br>
-                <p>Havent Signed Up. Please <Link to="/register">Sign Up</Link></p>
+                <p>Havent <Link to="/register">Signed Up</Link>?</p>
 			</div>
 		)
 	}
