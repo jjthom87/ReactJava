@@ -25457,11 +25457,11 @@
 	
 	var _login2 = _interopRequireDefault(_login);
 	
-	var _user_home = __webpack_require__(230);
+	var _user_home = __webpack_require__(231);
 	
 	var _user_home2 = _interopRequireDefault(_user_home);
 	
-	var _main_page = __webpack_require__(232);
+	var _main_page = __webpack_require__(233);
 	
 	var _main_page2 = _interopRequireDefault(_main_page);
 	
@@ -25892,6 +25892,10 @@
 	
 	var _reactRouter = __webpack_require__(160);
 	
+	var _login_page_nav = __webpack_require__(230);
+	
+	var _login_page_nav2 = _interopRequireDefault(_login_page_nav);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -25961,11 +25965,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'text-center' },
-	                _react2.default.createElement(
-	                    'p',
-	                    null,
-	                    'Login Form'
-	                ),
+	                _react2.default.createElement(_login_page_nav2.default, null),
 	                _react2.default.createElement(
 	                    'form',
 	                    { onSubmit: this.loginUser.bind(this) },
@@ -25975,14 +25975,24 @@
 	                        _react2.default.createElement(
 	                            'div',
 	                            { className: 'grid-x grid-padding-x' },
+	                            _react2.default.createElement('div', { className: 'small-4 small-centered columns' }),
 	                            _react2.default.createElement(
 	                                'div',
-	                                { className: 'medium-6 cell' },
-	                                _react2.default.createElement('input', { type: 'text', placeholder: 'username', ref: 'username' }),
-	                                _react2.default.createElement('br', null),
-	                                _react2.default.createElement('input', { type: 'password', placeholder: 'password', ref: 'password' }),
-	                                _react2.default.createElement('br', null),
-	                                _react2.default.createElement('input', { type: 'submit' })
+	                                { className: 'small-4 small-centered columns' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { id: 'login-panel', className: 'panel callout radius' },
+	                                    _react2.default.createElement(
+	                                        'p',
+	                                        null,
+	                                        'Login Form'
+	                                    ),
+	                                    _react2.default.createElement('input', { type: 'text', placeholder: 'username', ref: 'username' }),
+	                                    _react2.default.createElement('br', null),
+	                                    _react2.default.createElement('input', { type: 'password', placeholder: 'password', ref: 'password' }),
+	                                    _react2.default.createElement('br', null),
+	                                    _react2.default.createElement('input', { type: 'submit', className: 'button', value: 'Login' })
+	                                )
 	                            )
 	                        )
 	                    )
@@ -26026,7 +26036,73 @@
 	
 	var _reactRouter = __webpack_require__(160);
 	
-	var _user_home_nav = __webpack_require__(231);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var LoginPageNav = function (_Component) {
+	    _inherits(LoginPageNav, _Component);
+	
+	    function LoginPageNav(props) {
+	        _classCallCheck(this, LoginPageNav);
+	
+	        var _this = _possibleConstructorReturn(this, (LoginPageNav.__proto__ || Object.getPrototypeOf(LoginPageNav)).call(this, props));
+	
+	        _this.state = {};
+	        return _this;
+	    }
+	
+	    _createClass(LoginPageNav, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'top-bar' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'top-bar-right' },
+	                    _react2.default.createElement(
+	                        _reactRouter.Link,
+	                        { to: '/' },
+	                        _react2.default.createElement(
+	                            'button',
+	                            { type: 'button', className: 'button' },
+	                            'Home'
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return LoginPageNav;
+	}(_react.Component);
+	
+	exports.default = LoginPageNav;
+
+/***/ }),
+/* 231 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(160);
+	
+	var _user_home_nav = __webpack_require__(232);
 	
 	var _user_home_nav2 = _interopRequireDefault(_user_home_nav);
 	
@@ -26105,7 +26181,7 @@
 	exports.default = UserHome;
 
 /***/ }),
-/* 231 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26184,7 +26260,7 @@
 	exports.default = UserHomeNav;
 
 /***/ }),
-/* 232 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26201,7 +26277,7 @@
 	
 	var _reactRouter = __webpack_require__(160);
 	
-	var _main_page_nav = __webpack_require__(233);
+	var _main_page_nav = __webpack_require__(234);
 	
 	var _main_page_nav2 = _interopRequireDefault(_main_page_nav);
 	
@@ -26250,7 +26326,7 @@
 	exports.default = MainPage;
 
 /***/ }),
-/* 233 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Router , browserHistory, Link } from 'react-router';
 
+import LoginPageNav from './../navs/login_page_nav.jsx';
+
 export default class Login extends Component {
 
 	constructor(props) {
@@ -49,16 +51,21 @@ export default class Login extends Component {
 	render() {
 		return (
 			<div className="text-center">
-				<p>Login Form</p>
+		        <LoginPageNav />
 				<form onSubmit={this.loginUser.bind(this)}>
 				    <div className="grid-container">
 				        <div className="grid-x grid-padding-x">
-				            <div className="medium-6 cell">
-                					<input type="text" placeholder="username" ref="username"/>
-                					<br></br>
-                					<input type="password" placeholder="password" ref="password"/>
-                					<br></br>
-                					<input type="submit"/>
+				            <div className="small-4 small-centered columns">
+				            </div>
+				            <div className="small-4 small-centered columns">
+		                        <div id="login-panel" className="panel callout radius">
+		                            <p>Login Form</p>
+                    					<input type="text" placeholder="username" ref="username"/>
+                    					<br></br>
+                    					<input type="password" placeholder="password" ref="password"/>
+                    					<br></br>
+                    					<input type="submit" className="button" value="Login"/>
+		                        </div>
 				            </div>
 				        </div>
 				    </div>
