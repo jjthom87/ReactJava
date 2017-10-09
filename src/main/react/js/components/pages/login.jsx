@@ -64,7 +64,7 @@ export default class Login extends Component {
                     					<br></br>
                     					<input type="password" placeholder="password" ref="password"/>
                     					<br></br>
-                    					<input type="submit" className="button" value="Login"/>
+                    					<input type="submit" className="success button" value="Login"/>
 		                        </div>
 				            </div>
 				        </div>

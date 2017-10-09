@@ -25991,7 +25991,7 @@
 	                                    _react2.default.createElement('br', null),
 	                                    _react2.default.createElement('input', { type: 'password', placeholder: 'password', ref: 'password' }),
 	                                    _react2.default.createElement('br', null),
-	                                    _react2.default.createElement('input', { type: 'submit', className: 'button', value: 'Login' })
+	                                    _react2.default.createElement('input', { type: 'submit', className: 'success button', value: 'Login' })
 	                                )
 	                            )
 	                        )
