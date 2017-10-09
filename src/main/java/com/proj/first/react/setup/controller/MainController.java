@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.proj.first.react.setup.entity.User;
+import com.proj.first.react.setup.email.SendEmail;
 import com.proj.first.react.setup.entity.Token;
+import com.proj.first.react.setup.entity.User;
 import com.proj.first.react.setup.repository.TokenRepository;
 import com.proj.first.react.setup.repository.UserRepository;
 import com.proj.first.react.setup.security.Util;
@@ -32,6 +33,9 @@ public class MainController {
 
 	@Autowired
 	private Util util;
+	
+	@Autowired
+	private SendEmail sendEmail;
 
 	final static Logger logger = Logger.getLogger(MainController.class);
 
@@ -50,6 +54,7 @@ public class MainController {
 		try {
 			user.setPassword(user.hashPassword(user.getPassword()));
 			userRepository.save(user);
+			sendEmail.sendMail();
 			return ResponseEntity.ok("{\"username\":\"" + user.getUsername() + "\"}");
 		} catch (Exception e) {
 			logger.info("Error: " + e.getMessage());
