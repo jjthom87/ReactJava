@@ -14,6 +14,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +23,9 @@ public class SendEmail {
 	Properties prop = new Properties();
 	InputStream input = null;
 	final static Logger logger = Logger.getLogger(SendEmail.class);
+	
+    @Value("${config.host-url}")
+    private static String hostUrl;
 
 	public void sendMail(String uid, String email) throws MessagingException, IOException {
 		input = new FileInputStream("src/main/resources/local.properties");
@@ -46,7 +50,7 @@ public class SendEmail {
 			message.setFrom(new InternetAddress("NO-REPLY@jcjt.com"));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 			message.setSubject("Email Confirmation for Jared's Super Dope Site");
-			message.setText("Please click link to verify registration: http://localhost:8080/api/email-conf/" + uid);
+			message.setText("Please click link to verify registration: " + hostUrl + "api/email-conf/" + uid);
 
 			Transport.send(message);
 			logger.info("Email Sent to" + email);

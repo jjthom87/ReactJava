@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,9 @@ public class MainController {
 	@Autowired
 	private SendEmail sendEmail;
 
+	@Value("${config.host-url}")
+	private static String hostUrl;
+
 	final static Logger logger = Logger.getLogger(MainController.class);
 
 	@RequestMapping(value = "/*", method = RequestMethod.GET)
@@ -68,6 +72,7 @@ public class MainController {
 	@ModelAttribute
 	@RequestMapping(value = "/api/login", method = RequestMethod.POST, produces = { "application/json" })
 	public ResponseEntity<Boolean> login(@RequestBody User user, HttpServletResponse response) throws IOException {
+
 		User loggedInUser = userRepository.findByUsername(user.getUsername());
 		if (loggedInUser.getVerified()) {
 			Boolean loggedIn = loggedInUser.checkPassword(user.getPassword(), loggedInUser.getPassword());
@@ -113,6 +118,7 @@ public class MainController {
 		if (!"null".equals(request.getHeader("User"))) {
 			return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
 		}
+		logger.info("Host Url: " + hostUrl);
 		return ResponseEntity.ok(new User());
 	}
 
@@ -131,8 +137,8 @@ public class MainController {
 				+ "<head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'></head>"
 				+ "<script type='text/javascript'>window.location.href = 'http://localhost:8080/login'</script>"
 				+ "<body>"
-				+ "<h3>If you are not redirect, please click button...</h3><a type='button' class='btn btn-success' href='http://localhost:8080/login'>Login Now</a>"
-				+ "</body>" + "</html>";
+				+ "<h3>If you are not redirect, please click button...</h3><a type='button' class='btn btn-success' href='"
+				+ hostUrl + "login'>Login Now</a>" + "</body>" + "</html>";
 	}
 
 }
