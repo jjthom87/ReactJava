@@ -45,13 +45,12 @@ public class SendEmail {
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("jjthom87@yahoo.com"));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress("jjthom87@yahoo.com"));
-			message.setSubject("Ping");
-			message.setText("Please visit link: http://localhost:8080/api/email-conf/" + uid);
+			message.setSubject("Email Confirmation for Jared's Super Dope Site");
+			message.setText("Please click link to verify registration: http://localhost:8080/api/email-conf/" + uid);
 
 			Transport.send(message);
 			logger.info("Email Sent");
 			
-
 		} catch (MessagingException mex) {
 			mex.printStackTrace();
 		}

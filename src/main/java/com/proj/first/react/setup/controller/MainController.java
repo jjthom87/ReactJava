@@ -69,7 +69,7 @@ public class MainController {
 	@RequestMapping(value = "/api/login", method = RequestMethod.POST, produces = { "application/json" })
 	public ResponseEntity<Boolean> login(@RequestBody User user, HttpServletResponse response) throws IOException {
 		User loggedInUser = userRepository.findByUsername(user.getUsername());
-		if(loggedInUser.getVerified()) {
+		if (loggedInUser.getVerified()) {
 			Boolean loggedIn = loggedInUser.checkPassword(user.getPassword(), loggedInUser.getPassword());
 			if (loggedIn) {
 				util.createTokenAndAddToHeader(response, loggedInUser.getId(), loggedInUser.getUsername());
@@ -116,13 +116,23 @@ public class MainController {
 		return ResponseEntity.ok(new User());
 	}
 
-	@RequestMapping(value = "/api/email-conf/{uid}", method = RequestMethod.GET, produces = { MediaType.TEXT_HTML_VALUE })
+	@RequestMapping(value = "/api/email-conf/{uid}", method = RequestMethod.GET, produces = {
+			MediaType.TEXT_HTML_VALUE })
 	public @ResponseBody ResponseEntity<String> emailConfirmation(HttpServletRequest request, @PathVariable String uid)
 			throws IOException {
 		User user = userRepository.findByUid(uid);
 		user.setVerified(true);
 		userRepository.save(user);
-		return ResponseEntity.ok("<a href='http://localhost:8080/login'>Login Now</a>");
+		return ResponseEntity.ok(htmlString());
+	}
+
+	public String htmlString() {
+		return "<html>"
+				+ "<head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'></head>"
+				+ "<script type='text/javascript'>window.location.href = 'http://localhost:8080/login'</script>"
+				+ "<body>"
+				+ "<h3>If you are not redirect, please click button...</h3><a type='button' class='btn btn-success' href='http://localhost:8080/login'>Login Now</a>"
+				+ "</body>" + "</html>";
 	}
 
 }
