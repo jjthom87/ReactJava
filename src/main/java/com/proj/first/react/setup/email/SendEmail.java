@@ -19,32 +19,32 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SendEmail {
-	
+
 	Properties prop = new Properties();
 	InputStream input = null;
 	final static Logger logger = Logger.getLogger(SendEmail.class);
-	
-    @Value("${config.host-url}")
-    private String hostUrl;
+
+	@Value("${config.host-url}")
+	private String hostUrl;
 
 	public void sendMail(String uid, String email) throws MessagingException, IOException {
 		input = new FileInputStream("src/main/resources/local.properties");
 		prop.load(input);
 
 		final String username = "cpsjtho@gmail.com";
-		final String password = prop.getProperty("config.gmail.password");
+		// final String password = prop.getProperty("config.gmail.password");
+		final String password = System.getProperty("MAIL_PASS");
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.port", "587");
 
-		Session session = Session.getInstance(props,
-		  new javax.mail.Authenticator() {
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(username, password);
 			}
-		  });
+		});
 		try {
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("NO-REPLY@jcjt.com"));
@@ -54,7 +54,7 @@ public class SendEmail {
 
 			Transport.send(message);
 			logger.info("Email Sent to" + email);
-			
+
 		} catch (MessagingException mex) {
 			mex.printStackTrace();
 		}

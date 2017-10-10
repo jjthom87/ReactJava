@@ -1,6 +1,7 @@
 package com.proj.first.react.setup.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +43,7 @@ public class MainController {
 
 	@Value("${config.host-url}")
 	private String hostUrl;
-	
+
 	@Value("${spring.profiles.active}")
 	private String activeProfile;
 
@@ -121,8 +122,10 @@ public class MainController {
 		if (!"null".equals(request.getHeader("User"))) {
 			return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
 		}
-		logger.info("Host Url: " + hostUrl);
-		logger.info("Active Profile: " + activeProfile);
+		// Map<String, String> env = System.getenv();
+		// for (String envName : env.keySet()) {
+		// System.out.format("%s=%s%n", envName, env.get(envName));
+		// }
 		return ResponseEntity.ok(new User());
 	}
 
@@ -139,8 +142,7 @@ public class MainController {
 	public String htmlString() {
 		return "<html>"
 				+ "<head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'></head>"
-				+ "<script type='text/javascript'>window.location.href = '" + hostUrl + "/login'</script>"
-				+ "<body>"
+				+ "<script type='text/javascript'>window.location.href = '" + hostUrl + "/login'</script>" + "<body>"
 				+ "<h3>If you are not redirect, please click button...</h3><a type='button' class='btn btn-success' href='"
 				+ hostUrl + "login'>Login Now</a>" + "</body>" + "</html>";
 	}
