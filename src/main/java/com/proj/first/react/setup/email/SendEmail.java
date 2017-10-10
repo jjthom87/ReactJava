@@ -25,7 +25,7 @@ public class SendEmail {
 	final static Logger logger = Logger.getLogger(SendEmail.class);
 	
     @Value("${config.host-url}")
-    private static String hostUrl;
+    private String hostUrl;
 
 	public void sendMail(String uid, String email) throws MessagingException, IOException {
 		input = new FileInputStream("src/main/resources/local.properties");

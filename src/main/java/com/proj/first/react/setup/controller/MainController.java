@@ -41,7 +41,10 @@ public class MainController {
 	private SendEmail sendEmail;
 
 	@Value("${config.host-url}")
-	private static String hostUrl;
+	private String hostUrl;
+	
+	@Value("${spring.profiles.active}")
+	private String activeProfile;
 
 	final static Logger logger = Logger.getLogger(MainController.class);
 
@@ -119,6 +122,7 @@ public class MainController {
 			return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
 		}
 		logger.info("Host Url: " + hostUrl);
+		logger.info("Active Profile: " + activeProfile);
 		return ResponseEntity.ok(new User());
 	}
 
@@ -135,7 +139,7 @@ public class MainController {
 	public String htmlString() {
 		return "<html>"
 				+ "<head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'></head>"
-				+ "<script type='text/javascript'>window.location.href = 'http://localhost:8080/login'</script>"
+				+ "<script type='text/javascript'>window.location.href = '" + hostUrl + "/login'</script>"
 				+ "<body>"
 				+ "<h3>If you are not redirect, please click button...</h3><a type='button' class='btn btn-success' href='"
 				+ hostUrl + "login'>Login Now</a>" + "</body>" + "</html>";
