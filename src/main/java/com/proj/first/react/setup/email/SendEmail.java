@@ -28,8 +28,8 @@ public class SendEmail {
 	private String hostUrl;
 
 	public void sendMail(String uid, String email) throws MessagingException, IOException {
-		input = new FileInputStream("src/main/resources/local.properties");
-		prop.load(input);
+		// input = new FileInputStream("src/main/resources/local.properties");
+		// prop.load(input);
 
 		final String username = "cpsjtho@gmail.com";
 		// final String password = prop.getProperty("config.gmail.password");
