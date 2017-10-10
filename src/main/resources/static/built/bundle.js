@@ -25814,9 +25814,10 @@
 	            e.preventDefault();
 	            var name = this.refs.name.value;
 	            var username = this.refs.username.value;
+	            var email = this.refs.email.value;
 	            var password = this.refs.password.value;
 	
-	            var newUser = { name: name, username: username, password: password, uid: uuid(), verified: false };
+	            var newUser = { name: name, username: username, email: email, password: password, uid: uuid(), verified: false };
 	
 	            fetch('/api/create', {
 	                method: 'post',
@@ -25863,6 +25864,8 @@
 	                            _react2.default.createElement('input', { type: 'text', placeholder: 'name', ref: 'name' }),
 	                            _react2.default.createElement('br', null),
 	                            _react2.default.createElement('input', { type: 'text', placeholder: 'username', ref: 'username' }),
+	                            _react2.default.createElement('br', null),
+	                            _react2.default.createElement('input', { type: 'text', placeholder: 'email', ref: 'email' }),
 	                            _react2.default.createElement('br', null),
 	                            _react2.default.createElement('input', { type: 'password', placeholder: 'password', ref: 'password' }),
 	                            _react2.default.createElement('br', null),

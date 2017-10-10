@@ -56,7 +56,7 @@ public class MainController {
 		try {
 			user.setPassword(user.hashPassword(user.getPassword()));
 			userRepository.save(user);
-			sendEmail.sendMail(user.getUid());
+			sendEmail.sendMail(user.getUid(), user.getEmail());
 			return ResponseEntity.ok("{\"username\":\"" + user.getUsername() + "\"}");
 		} catch (Exception e) {
 			logger.info("Error: " + e.getMessage());

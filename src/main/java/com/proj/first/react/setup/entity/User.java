@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import lombok.Data;
@@ -22,6 +23,9 @@ public class User {
 	
 	@Column(unique=true)
 	private String username;
+	
+	@Email
+	private String email;
 	
 	private String password;
 	

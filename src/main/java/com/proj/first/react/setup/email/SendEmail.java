@@ -23,7 +23,7 @@ public class SendEmail {
 	InputStream input = null;
 	final static Logger logger = Logger.getLogger(SendEmail.class);
 
-	public void sendMail(String uid) throws MessagingException, IOException {
+	public void sendMail(String uid, String email) throws MessagingException, IOException {
 		input = new FileInputStream("src/main/resources/local.properties");
 		prop.load(input);
 
@@ -43,13 +43,13 @@ public class SendEmail {
 		  });
 		try {
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("jjthom87@yahoo.com"));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress("jjthom87@yahoo.com"));
+			message.setFrom(new InternetAddress("NO-REPLY@jcjt.com"));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 			message.setSubject("Email Confirmation for Jared's Super Dope Site");
 			message.setText("Please click link to verify registration: http://localhost:8080/api/email-conf/" + uid);
 
 			Transport.send(message);
-			logger.info("Email Sent");
+			logger.info("Email Sent to" + email);
 			
 		} catch (MessagingException mex) {
 			mex.printStackTrace();

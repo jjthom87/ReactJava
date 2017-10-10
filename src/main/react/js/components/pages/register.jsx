@@ -15,9 +15,10 @@ export default class Register extends Component {
 		e.preventDefault();
         const name = this.refs.name.value;
         const username = this.refs.username.value;
+        const email = this.refs.email.value;
         const password = this.refs.password.value;
 
-        const newUser = { name, username, password, uid: uuid(), verified: false }
+        const newUser = { name, username, email, password, uid: uuid(), verified: false }
 
 		fetch('/api/create', {
             method: 'post',
@@ -54,6 +55,8 @@ export default class Register extends Component {
                             <input type="text" placeholder="name" ref="name"/>
                             <br></br>
                             <input type="text" placeholder="username" ref="username"/>
+                            <br></br>
+                            <input type="text" placeholder="email" ref="email"/>
                             <br></br>
                             <input type="password" placeholder="password" ref="password"/>
                             <br></br>
