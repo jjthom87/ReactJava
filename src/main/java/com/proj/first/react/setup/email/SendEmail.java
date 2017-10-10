@@ -33,7 +33,7 @@ public class SendEmail {
 
 		final String username = "cpsjtho@gmail.com";
 		// final String password = prop.getProperty("config.gmail.password");
-		final String password = System.getProperty("MAIL_PASS");
+		final String password = System.getenv("MAIL_PASS");
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
