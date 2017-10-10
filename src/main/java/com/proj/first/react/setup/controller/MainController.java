@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,7 +35,7 @@ public class MainController {
 
 	@Autowired
 	private Util util;
-	
+
 	@Autowired
 	private SendEmail sendEmail;
 
@@ -54,7 +56,7 @@ public class MainController {
 		try {
 			user.setPassword(user.hashPassword(user.getPassword()));
 			userRepository.save(user);
-			sendEmail.sendMail();
+			sendEmail.sendMail(user.getUid());
 			return ResponseEntity.ok("{\"username\":\"" + user.getUsername() + "\"}");
 		} catch (Exception e) {
 			logger.info("Error: " + e.getMessage());
@@ -67,13 +69,18 @@ public class MainController {
 	@RequestMapping(value = "/api/login", method = RequestMethod.POST, produces = { "application/json" })
 	public ResponseEntity<Boolean> login(@RequestBody User user, HttpServletResponse response) throws IOException {
 		User loggedInUser = userRepository.findByUsername(user.getUsername());
-		Boolean loggedIn = loggedInUser.checkPassword(user.getPassword(), loggedInUser.getPassword());
-		if (loggedIn) {
-			util.createTokenAndAddToHeader(response, loggedInUser.getId(), loggedInUser.getUsername());
+		if(loggedInUser.getVerified()) {
+			Boolean loggedIn = loggedInUser.checkPassword(user.getPassword(), loggedInUser.getPassword());
+			if (loggedIn) {
+				util.createTokenAndAddToHeader(response, loggedInUser.getId(), loggedInUser.getUsername());
+			} else {
+				response.sendError(401, "Unauthorized");
+			}
+			return ResponseEntity.ok(loggedIn);
 		} else {
-			response.sendError(401, "Unauthorized");
+			response.sendError(500, "Unverified");
+			return ResponseEntity.ok(false);
 		}
-		return ResponseEntity.ok(loggedIn);
 	}
 
 	@ModelAttribute
@@ -107,6 +114,15 @@ public class MainController {
 			return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
 		}
 		return ResponseEntity.ok(new User());
+	}
+
+	@RequestMapping(value = "/api/email-conf/{uid}", method = RequestMethod.GET, produces = { MediaType.TEXT_HTML_VALUE })
+	public @ResponseBody ResponseEntity<String> emailConfirmation(HttpServletRequest request, @PathVariable String uid)
+			throws IOException {
+		User user = userRepository.findByUid(uid);
+		user.setVerified(true);
+		userRepository.save(user);
+		return ResponseEntity.ok("<a href='http://localhost:8080/login'>Login Now</a>");
 	}
 
 }

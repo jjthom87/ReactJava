@@ -13,6 +13,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,8 +21,9 @@ public class SendEmail {
 	
 	Properties prop = new Properties();
 	InputStream input = null;
+	final static Logger logger = Logger.getLogger(SendEmail.class);
 
-	public void sendMail() throws MessagingException, IOException {
+	public void sendMail(String uid) throws MessagingException, IOException {
 		input = new FileInputStream("src/main/resources/local.properties");
 		prop.load(input);
 
@@ -44,10 +46,11 @@ public class SendEmail {
 			message.setFrom(new InternetAddress("jjthom87@yahoo.com"));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress("jjthom87@yahoo.com"));
 			message.setSubject("Ping");
-			message.setText("Hello, this is example of sending email  ");
+			message.setText("Please visit link: http://localhost:8080/api/email-conf/" + uid);
 
 			Transport.send(message);
-			System.out.println("message sent successfully....");
+			logger.info("Email Sent");
+			
 
 		} catch (MessagingException mex) {
 			mex.printStackTrace();

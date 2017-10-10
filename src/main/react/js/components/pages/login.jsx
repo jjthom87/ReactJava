@@ -25,12 +25,15 @@ export default class Login extends Component {
                 'accept': 'application/json'
             }
         	}).then((response) => {
+        	        console.log(response.status)
                if(response.status == 200){
                    localStorage.setItem('creds', response.headers.get('Auth'));
                    localStorage.setItem('user', response.headers.get('CurrentUser'))
                    browserHistory.push('/userhome');
-               } else {
+               } else if (response.status == 401){
                    alert ('Incorrect Login Credentials');
+               } else if (response.status == 500){
+                   alert ('Please Verify Email')
                }
         });
 	}

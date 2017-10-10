@@ -25,6 +25,10 @@ public class User {
 	
 	private String password;
 	
+	private String uid;
+	
+	private Boolean verified;
+	
 	public String hashPassword(String password_plaintext) {
 		return BCrypt.hashpw(password_plaintext, BCrypt.gensalt());
 	}
