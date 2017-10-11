@@ -29,7 +29,7 @@ public class SendEmail {
 	public void sendMail(String uid, String email) throws MessagingException, IOException {
 
 		final String username = "apikey";
-		final String password = "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";
+		final String password = System.getenv("SENDGRID_KEY");
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
