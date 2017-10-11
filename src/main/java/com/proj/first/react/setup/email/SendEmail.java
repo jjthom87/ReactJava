@@ -20,22 +20,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class SendEmail {
 
-	Properties prop = new Properties();
-	InputStream input = null;
 	final static Logger logger = Logger.getLogger(SendEmail.class);
 
-	@Value("${config.host-url}")
-	private String hostUrl;
+	@Value("${config.host-dev-url}")
+	private String hostDevUrl;
+	
+	@Value("${config.host-prod-url}")
+	private String hostProdUrl;
 
 	public void sendMail(String uid, String email) throws MessagingException, IOException {
   		
+		String url;
   		final String password;
 		if(System.getenv("SENDGRID_KEY") == null) {
-	 		input = new FileInputStream("src/main/resources/local.properties");
+			InputStream input = new FileInputStream("src/main/resources/local.properties");
+			Properties prop = new Properties();
 	  		prop.load(input);
 			password = prop.getProperty("config.sendgrid.key");
+			url = hostDevUrl;
 		} else {
 			password = System.getenv("SENDGRID_KEY");
+			url = hostProdUrl;
 		}
 		
 		final String username = "apikey";
@@ -50,12 +55,13 @@ public class SendEmail {
 				return new PasswordAuthentication(username, password);
 			}
 		});
+		
 		try {
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("NO-REPLY@jcjt.com"));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 			message.setSubject("Email Confirmation for Jared's Super Dope Site");
-			message.setText("Please click link to verify registration: " + hostUrl + "api/email-conf/" + uid);
+			message.setText("Please click link to verify registration: " + url + "api/email-conf/" + uid);
 
 			Transport.send(message);
 			logger.info("Email Sent to " + email);
