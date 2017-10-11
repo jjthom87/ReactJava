@@ -1,6 +1,5 @@
 package com.proj.first.react.setup.email;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -28,16 +27,13 @@ public class SendEmail {
 	private String hostUrl;
 
 	public void sendMail(String uid, String email) throws MessagingException, IOException {
-		// input = new FileInputStream("src/main/resources/local.properties");
-		// prop.load(input);
 
-		final String username = "cpsjtho@gmail.com";
-		// final String password = prop.getProperty("config.gmail.password");
-		final String password = System.getenv("MAIL_PASS");
+		final String username = "apikey";
+		final String password = "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";
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.host", "smtp.sendgrid.net");
 		props.put("mail.smtp.port", "587");
 
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
@@ -53,7 +49,7 @@ public class SendEmail {
 			message.setText("Please click link to verify registration: " + hostUrl + "api/email-conf/" + uid);
 
 			Transport.send(message);
-			logger.info("Email Sent to" + email);
+			logger.info("Email Sent to " + email);
 
 		} catch (MessagingException mex) {
 			mex.printStackTrace();
