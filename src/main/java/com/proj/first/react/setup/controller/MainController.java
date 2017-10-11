@@ -137,7 +137,7 @@ public class MainController {
 	public String htmlString() {
 		return "<html>"
 				+ "<head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'></head>"
-				+ "<script type='text/javascript'>window.location.href = '" + hostUrl + "/login'</script>" + "<body>"
+				+ "<script type='text/javascript'>window.location.href = '" + hostUrl + "login'</script>" + "<body>"
 				+ "<h3>If you are not redirected, please click button...</h3><a type='button' class='btn btn-success' href='"
 				+ hostUrl + "login'>Login Now</a>" + "</body>" + "</html>";
 	}
