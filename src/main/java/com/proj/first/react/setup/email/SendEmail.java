@@ -28,11 +28,11 @@ public class SendEmail {
 	private String hostUrl;
 
 	public void sendMail(String uid, String email) throws MessagingException, IOException {
- 		input = new FileInputStream("src/main/resources/local.properties");
-  		prop.load(input);
   		
   		final String password;
 		if(System.getenv("SENDGRID_KEY") == null) {
+	 		input = new FileInputStream("src/main/resources/local.properties");
+	  		prop.load(input);
 			password = prop.getProperty("config.sendgrid.key");
 		} else {
 			password = System.getenv("SENDGRID_KEY");
