@@ -5,3 +5,4 @@ target/
 .classpath
 built/
 local.properties
+.env

@@ -1,5 +1,6 @@
 package com.proj.first.react.setup.email;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -27,9 +28,17 @@ public class SendEmail {
 	private String hostUrl;
 
 	public void sendMail(String uid, String email) throws MessagingException, IOException {
-
+ 		input = new FileInputStream("src/main/resources/local.properties");
+  		prop.load(input);
+  		
+  		final String password;
+		if(System.getenv("SENDGRID_KEY") == null) {
+			password = prop.getProperty("config.sendgrid.key");
+		} else {
+			password = System.getenv("SENDGRID_KEY");
+		}
+		
 		final String username = "apikey";
-		final String password = System.getenv("SENDGRID_KEY");
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
