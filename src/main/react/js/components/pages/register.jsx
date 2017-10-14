@@ -18,7 +18,7 @@ export default class Register extends Component {
         const email = this.refs.email.value;
         const password = this.refs.password.value;
 
-        const newUser = { name, username, email, password, uid: uuid(), verified: false }
+        const newUser = { name, username, email, password, uid: uuid() }
 
 		fetch('/api/create', {
             method: 'post',

@@ -25817,7 +25817,7 @@
 	            var email = this.refs.email.value;
 	            var password = this.refs.password.value;
 	
-	            var newUser = { name: name, username: username, email: email, password: password, uid: uuid(), verified: false };
+	            var newUser = { name: name, username: username, email: email, password: password, uid: uuid() };
 	
 	            fetch('/api/create', {
 	                method: 'post',

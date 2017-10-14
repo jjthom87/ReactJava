@@ -31,7 +31,9 @@ public class User {
 	
 	private String uid;
 	
-	private Boolean verified;
+	private Boolean verified = false;
+	
+	private Boolean loggedIn = false;
 	
 	public String hashPassword(String password_plaintext) {
 		return BCrypt.hashpw(password_plaintext, BCrypt.gensalt());

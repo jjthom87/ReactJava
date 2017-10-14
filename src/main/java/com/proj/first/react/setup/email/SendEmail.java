@@ -14,8 +14,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import com.proj.first.react.setup.controller.MainController;
 
 @Service
 public class SendEmail {
@@ -27,20 +30,20 @@ public class SendEmail {
 	
 	@Value("${config.host-prod-url}")
 	private String hostProdUrl;
+	
+	@Autowired
+	private MainController mainController;
 
 	public void sendMail(String uid, String email) throws MessagingException, IOException {
   		
-		String url;
   		final String password;
 		if(System.getenv("SENDGRID_KEY") == null) {
 			InputStream input = new FileInputStream("src/main/resources/local.properties");
 			Properties prop = new Properties();
 	  		prop.load(input);
 			password = prop.getProperty("config.sendgrid.key");
-			url = hostDevUrl;
 		} else {
 			password = System.getenv("SENDGRID_KEY");
-			url = hostProdUrl;
 		}
 		
 		final String username = "apikey";
@@ -61,7 +64,7 @@ public class SendEmail {
 			message.setFrom(new InternetAddress("NO-REPLY@jcjt.com"));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 			message.setSubject("Email Confirmation for Jared's Super Dope Site");
-			message.setText("Please click link to verify registration: " + url + "api/email-conf/" + uid);
+			message.setText("Please click link to verify registration: " + mainController.urlEnv() + "api/email-conf/" + uid);
 
 			Transport.send(message);
 			logger.info("Email Sent to " + email);

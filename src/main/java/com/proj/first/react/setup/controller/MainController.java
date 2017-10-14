@@ -1,6 +1,7 @@
 package com.proj.first.react.setup.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,9 +46,6 @@ public class MainController {
 
 	@Value("${config.host-prod-url}")
 	private String hostProdUrl;
-
-	@Value("${spring.profiles.active}")
-	private String activeProfile;
 
 	final static Logger logger = Logger.getLogger(MainController.class);
 
@@ -97,6 +95,7 @@ public class MainController {
 	@ModelAttribute
 	@RequestMapping(value = "/api/userhome", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody ResponseEntity<User> userHome(HttpServletRequest request) throws IOException {
+
 		if (!"null".equals(request.getHeader("User"))) {
 			return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
 		}
@@ -114,13 +113,18 @@ public class MainController {
 	@RequestMapping(value = "/api/logout", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody ResponseEntity<String> logout(HttpServletRequest request) throws IOException {
 		User user = userRepository.findByUsername(request.getHeader("User"));
-		Token token = tokenRepository.findByUserId(user.getId());
+		List<Token> token = tokenRepository.findByUserId(user.getId());
 		tokenRepository.delete(token);
 		return ResponseEntity.ok("{\"userLoggedOut\":true}");
 	}
 
 	@RequestMapping(value = "/api/mainpage", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody ResponseEntity<User> mainPage(HttpServletRequest request) throws IOException {
+		Iterable<Token> tokens = tokenRepository.findAll();
+		for (Token token : tokens) {
+			System.out.println(util.verifyToken(token.getToken(),
+					userRepository.findByUsername(request.getHeader("User")).getUsername()));
+		}
 		if (!"null".equals(request.getHeader("User"))) {
 			return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
 		}
@@ -138,17 +142,15 @@ public class MainController {
 	}
 
 	public String htmlString() {
-		String url;
-		if (System.getenv("SENDGRID_KEY") == null) {
-			url = hostDevUrl;
-		} else {
-			url = hostProdUrl;
-		}
 		return "<html>"
 				+ "<head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'></head>"
-				+ "<script type='text/javascript'>window.location.href = '" + url + "login'</script>" + "<body>"
+				+ "<script type='text/javascript'>window.location.href = '" + urlEnv() + "login'</script>" + "<body>"
 				+ "<h3>If you are not redirected, please click button...</h3><a type='button' class='btn btn-success' href='"
-				+ url + "login'>Login Now</a>" + "</body>" + "</html>";
+				+ urlEnv() + "login'>Login Now</a>" + "</body>" + "</html>";
+	}
+
+	public String urlEnv() {
+		return System.getenv("SENDGRID_KEY") == null ? hostDevUrl : hostProdUrl;
 	}
 
 }
