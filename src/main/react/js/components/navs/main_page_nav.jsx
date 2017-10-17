@@ -41,6 +41,9 @@ export default class MainPageNav extends Component {
                 this.setState({
                     loggedInUser: results
                 })
+            } else {
+                localStorage.removeItem('creds');
+                localStorage.removeItem('user');
             }
         });
     }

@@ -8,4 +8,5 @@ import com.proj.first.react.setup.entity.Token;
 
 public interface TokenRepository extends CrudRepository<Token, String> {
 	List<Token> findByUserId(Integer userId);
+	List<Token> findByExpired(Boolean expired);
 }

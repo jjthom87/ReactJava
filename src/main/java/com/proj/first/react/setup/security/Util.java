@@ -7,14 +7,16 @@ import java.util.Date;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
+import com.proj.first.react.setup.controller.MainController;
 import com.proj.first.react.setup.entity.Token;
 import com.proj.first.react.setup.entity.User;
 import com.proj.first.react.setup.repository.TokenRepository;
@@ -29,7 +31,9 @@ public class Util {
 	@Autowired
 	private UserRepository userRepository;
 
-	Date expirationDate = Date.from(ZonedDateTime.now().plusMinutes(1).toInstant());
+	Date expirationDate = Date.from(ZonedDateTime.now().plusMinutes(60).toInstant());
+
+	final static Logger logger = Logger.getLogger(MainController.class);
 
 	public void createAndAddCreds(HttpServletResponse response, String user, String password)
 			throws IllegalArgumentException {
@@ -52,25 +56,26 @@ public class Util {
 		response.addHeader("CurrentUser", user);
 	}
 
-	public String verifyToken(String token, String user) {
-		try {
-			Algorithm algorithm = Algorithm.HMAC256("secret");
-			JWTVerifier verifier = JWT.require(algorithm).acceptLeeway(1).withIssuer("auth0").acceptExpiresAt(1)
-					.withClaim("user", user).build();
-			DecodedJWT jwt = verifier.verify(token);
-			return jwt.getExpiresAt().toString();
-		} catch (UnsupportedEncodingException exception) {
-			return "Got to here " + exception.getMessage();
-		} catch (JWTVerificationException exception) {
-			Iterable<Token> tokens = tokenRepository.findAll();
-			User tokenUser = userRepository.findByUsername(user);
-			System.out.println(tokenUser);
-			for (Token userToken : tokens) {
-				if (userToken.getUserId().equals(tokenUser.getId())) {
-					tokenRepository.delete(userToken);
-				}
+	@Scheduled(fixedDelay = 10000)
+	public String verifyTokenTwo() {
+		Iterable<Token> tokens = tokenRepository.findAll();
+		for (Token token : tokens) {
+			User user = userRepository.findById(token.getUserId());
+			try {
+				Algorithm algorithm = Algorithm.HMAC256("secret");
+				JWTVerifier verifier = JWT.require(algorithm).withIssuer("auth0").acceptExpiresAt(60000)
+						.withClaim("user", user.getUsername()).build();
+				verifier.verify(token.getToken());
+				return "Token Not Expired for " + user.getUsername();
+			} catch (JWTVerificationException e) {
+				token.setExpired(true);
+				tokenRepository.save(token);
+				return "Token Expired for " + user.getUsername();
+			} catch (UnsupportedEncodingException e) {
+				logger.error("Unsupported " + e);
+				return "Unsupported " + e;
 			}
-			return "Jwt here " + exception.getMessage();
 		}
+		return "No JWT Problem";
 	}
 }

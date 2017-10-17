@@ -154,17 +154,9 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>exec-maven-plugin</artifactId> 
-				<executions> <execution> <id>npm start</id> <goals> <goal>exec</goal> </goals> 
-				use validate to get the static files into the jar <phase>validate</phase> 
-				<configuration> <workingDirectory>src/main/react/js/</workingDirectory> <executable>npm</executable> 
-				<arguments> <argument>start</argument> </arguments> </configuration> </execution> 
-				</executions> </plugin> -->
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>

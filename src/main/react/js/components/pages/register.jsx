@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Link, browserHistory} from 'react-router';
 
+import RegisterPageNav from './../navs/register_page_nav.jsx';
+
 var uuid = require('node-uuid');
 
 export default class Register extends Component {
@@ -49,18 +51,25 @@ export default class Register extends Component {
                )
             } else {
                 return (
-                    <div>
-                        <p>Sign Up Form</p>
+                    <div className="text-center">
+                        <RegisterPageNav/>
                         <form onSubmit={this.createUser.bind(this)}>
-                            <input type="text" placeholder="name" ref="name"/>
-                            <br></br>
-                            <input type="text" placeholder="username" ref="username"/>
-                            <br></br>
-                            <input type="text" placeholder="email" ref="email"/>
-                            <br></br>
-                            <input type="password" placeholder="password" ref="password"/>
-                            <br></br>
-                            <input type="submit"/>
+                            <div className="grid-container">
+                                <div className="grid-x grid-padding-x">
+                                    <div className="small-4 small-centered columns">
+                                    </div>
+                                    <div className="small-4 small-centered columns">
+                                        <div id="login-panel" className="panel callout radius">
+                                            <p>Sign Up Form</p>
+                                            <input type="text" placeholder="name" ref="name"/>
+                                            <input type="text" placeholder="username" ref="username"/>
+                                            <input type="text" placeholder="email" ref="email"/>
+                                            <input type="password" placeholder="password" ref="password"/>
+                                            <input type="submit" className="success button" value="Register"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                         <br></br>
                         <p>Already a member. Please <Link to="/login">Login</Link></p>

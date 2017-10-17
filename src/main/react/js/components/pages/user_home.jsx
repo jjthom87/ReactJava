@@ -7,7 +7,7 @@ export default class UserHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: ''
+            userName: ''
         }
     }
     componentWillMount() {
@@ -23,9 +23,11 @@ export default class UserHome extends Component {
         .then((results) => {
             if(results.id != null){
                 this.setState({
-                    user: results
+                    userName: results.name
                 })
             } else {
+                localStorage.removeItem('creds');
+                localStorage.removeItem('user');
                 browserHistory.push('/');
             }
         });
@@ -36,7 +38,8 @@ export default class UserHome extends Component {
                 <UserHomeNav/>
                 <br></br>
                 <div className="text-center">
-                    <p>Welcome {this.state.user.name}</p>
+                    <p>Welcome {this.state.userName}</p>
+                    
                 </div>
             </div>
         )

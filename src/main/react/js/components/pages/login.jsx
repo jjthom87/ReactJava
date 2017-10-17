@@ -25,7 +25,6 @@ export default class Login extends Component {
                 'accept': 'application/json'
             }
         	}).then((response) => {
-        	        console.log(response.status)
                if(response.status == 200){
                    localStorage.setItem('creds', response.headers.get('Auth'));
                    localStorage.setItem('user', response.headers.get('CurrentUser'))
@@ -48,6 +47,9 @@ export default class Login extends Component {
         .then((results) => {
             if(results.userLoggedIn){
                 browserHistory.push('/userhome')
+            } else {
+                localStorage.removeItem('creds');
+                localStorage.removeItem('user');
             }
         });
 	}

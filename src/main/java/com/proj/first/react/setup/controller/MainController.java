@@ -82,6 +82,7 @@ public class MainController {
 			Boolean loggedIn = loggedInUser.checkPassword(user.getPassword(), loggedInUser.getPassword());
 			if (loggedIn) {
 				util.createTokenAndAddToHeader(response, loggedInUser.getId(), loggedInUser.getUsername());
+				loggedInUser.setLoggedIn(true);
 			} else {
 				response.sendError(401, "Unauthorized");
 			}
@@ -95,9 +96,12 @@ public class MainController {
 	@ModelAttribute
 	@RequestMapping(value = "/api/userhome", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody ResponseEntity<User> userHome(HttpServletRequest request) throws IOException {
-
 		if (!"null".equals(request.getHeader("User"))) {
-			return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
+			User user = userRepository.findByUsername(request.getHeader("User"));
+			List<Token> activeTokens = tokenRepository.findByUserId(user.getId());
+			if (((activeTokens.size() > 0))) {
+				return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
+			}
 		}
 		return ResponseEntity.ok(new User());
 	}
@@ -105,7 +109,11 @@ public class MainController {
 	@RequestMapping(value = "/api/login-page", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody ResponseEntity<String> loginPage(HttpServletRequest request) throws IOException {
 		if (!"null".equals(request.getHeader("User"))) {
-			return ResponseEntity.ok("{\"userLoggedIn\":true}");
+			User user = userRepository.findByUsername(request.getHeader("User"));
+			List<Token> activeTokens = tokenRepository.findByUserId(user.getId());
+			if (((activeTokens.size() > 0))) {
+				return ResponseEntity.ok("{\"userLoggedIn\":true}");
+			}
 		}
 		return ResponseEntity.ok("{\"userLoggedIn\":false}");
 	}
@@ -115,18 +123,19 @@ public class MainController {
 		User user = userRepository.findByUsername(request.getHeader("User"));
 		List<Token> token = tokenRepository.findByUserId(user.getId());
 		tokenRepository.delete(token);
+		user.setLoggedIn(false);
+		userRepository.save(user);
 		return ResponseEntity.ok("{\"userLoggedOut\":true}");
 	}
 
 	@RequestMapping(value = "/api/mainpage", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody ResponseEntity<User> mainPage(HttpServletRequest request) throws IOException {
-		Iterable<Token> tokens = tokenRepository.findAll();
-		for (Token token : tokens) {
-			System.out.println(util.verifyToken(token.getToken(),
-					userRepository.findByUsername(request.getHeader("User")).getUsername()));
-		}
 		if (!"null".equals(request.getHeader("User"))) {
-			return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
+			User user = userRepository.findByUsername(request.getHeader("User"));
+			List<Token> activeTokens = tokenRepository.findByUserId(user.getId());
+			if (((activeTokens.size() > 0))) {
+				return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
+			}
 		}
 		return ResponseEntity.ok(new User());
 	}
@@ -139,6 +148,19 @@ public class MainController {
 		user.setVerified(true);
 		userRepository.save(user);
 		return ResponseEntity.ok(htmlString());
+	}
+
+	@RequestMapping(value = "/api/expired-tokens", method = RequestMethod.GET, produces = { "application/json" })
+	public @ResponseBody List<Token> expiredTokens() throws IOException {
+		return tokenRepository.findByExpired(true);
+	}
+
+	@RequestMapping(value = "/api/logout-token/{userId}", method = RequestMethod.GET, produces = { "application/json" })
+	public @ResponseBody ResponseEntity<String> tokenLogout(@PathVariable int userId) throws IOException {
+		List<Token> expiredTokens = tokenRepository.findByUserId(userId);
+		tokenRepository.delete(expiredTokens.get(0));
+		logger.info("Token Deleted");
+		return ResponseEntity.ok("Token Deleted");
 	}
 
 	public String htmlString() {

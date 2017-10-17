@@ -14,12 +14,12 @@ export default class UserHomeNav extends Component {
                 'content-type': 'application/json',
                 'accept': 'application/json'
             }
-            }).then((response) => {
-               if(response.status == 200){
-                   localStorage.removeItem('creds');
-                   localStorage.removeItem('user');
-                   browserHistory.push('/');
-               }
+        }).then((response) => {
+           if(response.status == 200){
+               localStorage.removeItem('creds');
+               localStorage.removeItem('user');
+               browserHistory.push('/');
+           }
         });
     }
     render() {
