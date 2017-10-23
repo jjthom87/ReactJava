@@ -3,12 +3,14 @@ import {Link, browserHistory} from 'react-router';
 
 import UserHomeNav from './../navs/user_home_nav.jsx';
 import ActivityForm from './../forms/activity_form.jsx';
+import ActivitiesList from './../activities/activities_list.jsx';
 
 export default class UserHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: ''
+            userName: '',
+            activities: []
         }
     }
     createActivity(creds){
@@ -16,7 +18,6 @@ export default class UserHome extends Component {
             'activity' : creds.activity,
             'timeSpent' : parseInt(creds.timeSpent)
         }
-        console.log(newActivity)
         fetch('/api/create-activity', {
             method: 'POST',
             body: JSON.stringify(newActivity),
@@ -27,9 +28,12 @@ export default class UserHome extends Component {
                 'accept': 'application/json'
             },
             credentials: 'include'
-            }).then((response) => {
-                console.log(response)
-            });
+            }).then((response) => response.json())
+            .then((results) => {
+                this.setState({
+                    activities: this.state.activities.concat(results)
+                })
+            })
     }
     componentWillMount() {
         fetch('/api/userhome', {
@@ -42,10 +46,10 @@ export default class UserHome extends Component {
             credentials: 'include'
         }).then((response) => response.json())
         .then((results) => {
-            console.log(results)
             if(results[0].username){
                 this.setState({
-                    userName: results[0].username
+                    userName: results[0].username,
+                    activities: results[1]
                 })
             } else {
                 localStorage.removeItem('creds');
@@ -62,6 +66,7 @@ export default class UserHome extends Component {
                 <div className="text-center">
                     <p>Welcome {this.state.userName}</p>
                     <ActivityForm saveActivity={this.createActivity.bind(this)}/>
+                    <ActivitiesList activities={this.state.activities}/>
                 </div>
             </div>
         )

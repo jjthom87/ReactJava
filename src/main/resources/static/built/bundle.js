@@ -25461,7 +25461,7 @@
 	
 	var _user_home2 = _interopRequireDefault(_user_home);
 	
-	var _main_page = __webpack_require__(296);
+	var _main_page = __webpack_require__(298);
 	
 	var _main_page2 = _interopRequireDefault(_main_page);
 	
@@ -34941,6 +34941,10 @@
 	
 	var _activity_form2 = _interopRequireDefault(_activity_form);
 	
+	var _activities_list = __webpack_require__(296);
+	
+	var _activities_list2 = _interopRequireDefault(_activities_list);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34958,7 +34962,8 @@
 	        var _this = _possibleConstructorReturn(this, (UserHome.__proto__ || Object.getPrototypeOf(UserHome)).call(this, props));
 	
 	        _this.state = {
-	            userName: ''
+	            userName: '',
+	            activities: []
 	        };
 	        return _this;
 	    }
@@ -34966,11 +34971,12 @@
 	    _createClass(UserHome, [{
 	        key: 'createActivity',
 	        value: function createActivity(creds) {
+	            var _this2 = this;
+	
 	            var newActivity = {
 	                'activity': creds.activity,
 	                'timeSpent': parseInt(creds.timeSpent)
 	            };
-	            console.log(newActivity);
 	            fetch('/api/create-activity', {
 	                method: 'POST',
 	                body: JSON.stringify(newActivity),
@@ -34982,13 +34988,17 @@
 	                },
 	                credentials: 'include'
 	            }).then(function (response) {
-	                console.log(response);
+	                return response.json();
+	            }).then(function (results) {
+	                _this2.setState({
+	                    activities: _this2.state.activities.concat(results)
+	                });
 	            });
 	        }
 	    }, {
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
-	            var _this2 = this;
+	            var _this3 = this;
 	
 	            fetch('/api/userhome', {
 	                headers: {
@@ -35001,10 +35011,10 @@
 	            }).then(function (response) {
 	                return response.json();
 	            }).then(function (results) {
-	                console.log(results);
 	                if (results[0].username) {
-	                    _this2.setState({
-	                        userName: results[0].username
+	                    _this3.setState({
+	                        userName: results[0].username,
+	                        activities: results[1]
 	                    });
 	                } else {
 	                    localStorage.removeItem('creds');
@@ -35030,7 +35040,8 @@
 	                        'Welcome ',
 	                        this.state.userName
 	                    ),
-	                    _react2.default.createElement(_activity_form2.default, { saveActivity: this.createActivity.bind(this) })
+	                    _react2.default.createElement(_activity_form2.default, { saveActivity: this.createActivity.bind(this) }),
+	                    _react2.default.createElement(_activities_list2.default, { activities: this.state.activities })
 	                )
 	            );
 	        }
@@ -35231,9 +35242,155 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _activities_item = __webpack_require__(297);
+	
+	var _activities_item2 = _interopRequireDefault(_activities_item);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ActivitiesList = function (_React$Component) {
+	    _inherits(ActivitiesList, _React$Component);
+	
+	    function ActivitiesList() {
+	        _classCallCheck(this, ActivitiesList);
+	
+	        return _possibleConstructorReturn(this, (ActivitiesList.__proto__ || Object.getPrototypeOf(ActivitiesList)).apply(this, arguments));
+	    }
+	
+	    _createClass(ActivitiesList, [{
+	        key: 'render',
+	        value: function render() {
+	            var activities = this.props.activities;
+	
+	            var renderActivities = function renderActivities() {
+	                return activities.map(function (activity, index) {
+	                    return _react2.default.createElement(_activities_item2.default, {
+	                        activity: activity.activity,
+	                        timeSpent: activity.timeSpent,
+	                        key: index
+	                    });
+	                });
+	            };
+	            var noActivities = function noActivities() {
+	                if (activities.length === 0) {
+	                    return _react2.default.createElement(
+	                        'p',
+	                        { className: 'noActivitiesText' },
+	                        'No Activities'
+	                    );
+	                }
+	            };
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'p',
+	                    { className: 'ActivitiesTitle' },
+	                    'Activities'
+	                ),
+	                noActivities(),
+	                renderActivities()
+	            );
+	        }
+	    }]);
+	
+	    return ActivitiesList;
+	}(_react2.default.Component);
+	
+	exports.default = ActivitiesList;
+
+/***/ }),
+/* 297 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ActivitiesItem = function (_React$Component) {
+		_inherits(ActivitiesItem, _React$Component);
+	
+		function ActivitiesItem(props) {
+			_classCallCheck(this, ActivitiesItem);
+	
+			var _this = _possibleConstructorReturn(this, (ActivitiesItem.__proto__ || Object.getPrototypeOf(ActivitiesItem)).call(this, props));
+	
+			_this.state = {};
+			return _this;
+		}
+	
+		_createClass(ActivitiesItem, [{
+			key: 'render',
+			value: function render() {
+				var _props = this.props,
+				    activity = _props.activity,
+				    timeSpent = _props.timeSpent;
+	
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'p',
+						null,
+						'Activity: ',
+						activity
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'Time Spent: ',
+						timeSpent
+					)
+				);
+			}
+		}]);
+	
+		return ActivitiesItem;
+	}(_react2.default.Component);
+	
+	exports.default = ActivitiesItem;
+
+/***/ }),
+/* 298 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
 	var _reactRouter = __webpack_require__(160);
 	
-	var _main_page_nav = __webpack_require__(297);
+	var _main_page_nav = __webpack_require__(299);
 	
 	var _main_page_nav2 = _interopRequireDefault(_main_page_nav);
 	
@@ -35282,7 +35439,7 @@
 	exports.default = MainPage;
 
 /***/ }),
-/* 297 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';

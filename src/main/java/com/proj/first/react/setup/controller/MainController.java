@@ -100,7 +100,6 @@ public class MainController {
 		}
 	}
 
-	@ModelAttribute
 	@RequestMapping(value = "/api/userhome", method = RequestMethod.GET, produces = { "application/json" })
 	public @ResponseBody ResponseEntity<List<Object>> userHome(HttpServletRequest request) throws IOException {
 		if (!"null".equals(request.getHeader("User"))) {
@@ -111,7 +110,6 @@ public class MainController {
 			if (activeTokens.size() > 0) {
 				list.add(user);
 				list.add(activity);
-				System.out.println(list);
 				return ResponseEntity.ok(list);
 			}
 		}
