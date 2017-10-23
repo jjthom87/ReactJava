@@ -1,7 +1,5 @@
 package com.proj.first.react.setup.entity;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,7 +8,7 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "activities_one")
+@Table(name = "activities_four")
 @Data
 public class Activity {
 	
@@ -19,7 +17,7 @@ public class Activity {
 	private Integer id;
 	
 	String activity;
-	
-	Integer amountOfTime;
+	Integer timeSpent;
+	Integer userId;
 
 }

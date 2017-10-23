@@ -25461,7 +25461,7 @@
 	
 	var _user_home2 = _interopRequireDefault(_user_home);
 	
-	var _main_page = __webpack_require__(295);
+	var _main_page = __webpack_require__(296);
 	
 	var _main_page2 = _interopRequireDefault(_main_page);
 	
@@ -34937,6 +34937,10 @@
 	
 	var _user_home_nav2 = _interopRequireDefault(_user_home_nav);
 	
+	var _activity_form = __webpack_require__(295);
+	
+	var _activity_form2 = _interopRequireDefault(_activity_form);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34960,6 +34964,28 @@
 	    }
 	
 	    _createClass(UserHome, [{
+	        key: 'createActivity',
+	        value: function createActivity(creds) {
+	            var newActivity = {
+	                'activity': creds.activity,
+	                'timeSpent': parseInt(creds.timeSpent)
+	            };
+	            console.log(newActivity);
+	            fetch('/api/create-activity', {
+	                method: 'POST',
+	                body: JSON.stringify(newActivity),
+	                headers: {
+	                    Auth: localStorage.getItem('creds'),
+	                    User: localStorage.getItem('user'),
+	                    'content-type': 'application/json',
+	                    'accept': 'application/json'
+	                },
+	                credentials: 'include'
+	            }).then(function (response) {
+	                console.log(response);
+	            });
+	        }
+	    }, {
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
 	            var _this2 = this;
@@ -34975,9 +35001,10 @@
 	            }).then(function (response) {
 	                return response.json();
 	            }).then(function (results) {
-	                if (results.id != null) {
+	                console.log(results);
+	                if (results[0].username) {
 	                    _this2.setState({
-	                        userName: results.name
+	                        userName: results[0].username
 	                    });
 	                } else {
 	                    localStorage.removeItem('creds');
@@ -35002,7 +35029,8 @@
 	                        null,
 	                        'Welcome ',
 	                        this.state.userName
-	                    )
+	                    ),
+	                    _react2.default.createElement(_activity_form2.default, { saveActivity: this.createActivity.bind(this) })
 	                )
 	            );
 	        }
@@ -35096,6 +35124,101 @@
 /* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ActivityForm = function (_Component) {
+	    _inherits(ActivityForm, _Component);
+	
+	    function ActivityForm(props) {
+	        _classCallCheck(this, ActivityForm);
+	
+	        var _this = _possibleConstructorReturn(this, (ActivityForm.__proto__ || Object.getPrototypeOf(ActivityForm)).call(this, props));
+	
+	        _this.state = {};
+	        return _this;
+	    }
+	
+	    _createClass(ActivityForm, [{
+	        key: "createActivity",
+	        value: function createActivity(e) {
+	            e.preventDefault();
+	            var activity = this.refs.activity.value;
+	            var timeSpent = this.refs.timeSpent.value;
+	
+	            var newActivity = { activity: activity, timeSpent: timeSpent };
+	
+	            this.props.saveActivity(newActivity);
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                null,
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "text-center" },
+	                    _react2.default.createElement(
+	                        "form",
+	                        { onSubmit: this.createActivity.bind(this) },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "grid-container" },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "grid-x grid-padding-x" },
+	                                _react2.default.createElement("div", { className: "small-4 small-centered columns" }),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "small-4 small-centered columns" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { id: "login-panel", className: "panel callout radius" },
+	                                        _react2.default.createElement(
+	                                            "p",
+	                                            null,
+	                                            "Enter Activity"
+	                                        ),
+	                                        _react2.default.createElement("input", { type: "text", placeholder: "Activity", ref: "activity" }),
+	                                        _react2.default.createElement("input", { type: "number", placeholder: "Time Spent (in minutes)", ref: "timeSpent" }),
+	                                        _react2.default.createElement("input", { type: "submit", className: "primary button" })
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return ActivityForm;
+	}(_react.Component);
+	
+	exports.default = ActivityForm;
+
+/***/ }),
+/* 296 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
@@ -35110,7 +35233,7 @@
 	
 	var _reactRouter = __webpack_require__(160);
 	
-	var _main_page_nav = __webpack_require__(296);
+	var _main_page_nav = __webpack_require__(297);
 	
 	var _main_page_nav2 = _interopRequireDefault(_main_page_nav);
 	
@@ -35159,7 +35282,7 @@
 	exports.default = MainPage;
 
 /***/ }),
-/* 296 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';

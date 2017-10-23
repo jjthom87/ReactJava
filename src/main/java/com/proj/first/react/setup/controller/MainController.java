@@ -1,6 +1,8 @@
 package com.proj.first.react.setup.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.proj.first.react.setup.email.SendEmail;
+import com.proj.first.react.setup.entity.Activity;
 import com.proj.first.react.setup.entity.Token;
 import com.proj.first.react.setup.entity.User;
+import com.proj.first.react.setup.repository.ActivityRepository;
 import com.proj.first.react.setup.repository.TokenRepository;
 import com.proj.first.react.setup.repository.UserRepository;
 import com.proj.first.react.setup.security.Util;
@@ -34,6 +38,9 @@ public class MainController {
 
 	@Autowired
 	private TokenRepository tokenRepository;
+	
+	@Autowired
+	private ActivityRepository activityRepository;
 
 	@Autowired
 	private Util util;
@@ -95,15 +102,20 @@ public class MainController {
 
 	@ModelAttribute
 	@RequestMapping(value = "/api/userhome", method = RequestMethod.GET, produces = { "application/json" })
-	public @ResponseBody ResponseEntity<User> userHome(HttpServletRequest request) throws IOException {
+	public @ResponseBody ResponseEntity<List<Object>> userHome(HttpServletRequest request) throws IOException {
 		if (!"null".equals(request.getHeader("User"))) {
+			List<Object> list = new ArrayList<>();
 			User user = userRepository.findByUsername(request.getHeader("User"));
+			List<Activity> activity = activityRepository.findByUserId(user.getId());
 			List<Token> activeTokens = tokenRepository.findByUserId(user.getId());
-			if (((activeTokens.size() > 0))) {
-				return ResponseEntity.ok(userRepository.findByUsername(request.getHeader("User")));
+			if (activeTokens.size() > 0) {
+				list.add(user);
+				list.add(activity);
+				System.out.println(list);
+				return ResponseEntity.ok(list);
 			}
 		}
-		return ResponseEntity.ok(new User());
+		return ResponseEntity.ok(Collections.emptyList());
 	}
 
 	@RequestMapping(value = "/api/login-page", method = RequestMethod.GET, produces = { "application/json" })
@@ -173,6 +185,18 @@ public class MainController {
 
 	public String urlEnv() {
 		return System.getenv("SENDGRID_KEY") == null ? hostDevUrl : hostProdUrl;
+	}
+	
+	@RequestMapping(value = "/api/create-activity", method = RequestMethod.POST, produces = { "application/json" })
+	public ResponseEntity<Activity> createActivity(@RequestBody Activity activity, HttpServletRequest request) throws IOException {
+		if (!"null".equals(request.getHeader("User"))) {
+			User user = userRepository.findByUsername(request.getHeader("User"));
+			activity.setUserId(user.getId());
+			activityRepository.save(activity);
+			return ResponseEntity.ok(activity);
+		}
+		return null;
+
 	}
 
 }
